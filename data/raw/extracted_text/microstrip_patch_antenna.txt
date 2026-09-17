@@ -1,0 +1,279 @@
+IEEE SPONSORED 2ND INTERNATIONAL CONFERENCE ON ELECTRONICS AND COMMUNICATION 
+SYSTEM(ICECS 2015)
+978-1-4788-7225-8/15/$31.00 ©2015 IEEE                            1114 
+ 
+ 
+Design and Analysis of Microstrip Patch Antenna for 
+2.4GHz ISM Band and WLAN Application
+Asokan V
+PG Student
+Electronics & Communication Engg.
+Kumaraguru College of Technology
+Coimbatore, India
+asokan.dec07@gmail.com
+Thilagam S
+Assistant professor
+Electronics & Communication Engg.
+Kumaraguru College of Technology
+Coimbatore, India
+thilagamsundar@gmail.com
+Vinoth kumar K
+PG Sthuent
+Electronics & Communication Engg.
+Kumaraguru College of Technology
+Coimbatore, India
+vlbvinoth@gmail.com
+Abstract— In this paper Microstrip Patch antenna is 
+designed in Ansoft HFSSV13. The designed antennas are 
+double-sided printed microstrip patch antenna. The 
+antenna is designed over th e operating frequency is 
+2.4GHZ using the substrate material as FR4 which has 
+WKH GLHOHFWULF FRQVWDQW RI İr
+I. I NTRODUCTION
+). The designed antenna 
+can be used for ISM (industrial, scientific and medical) 
+band and WLAN applications. The designed antenna 
+has low profile, low cost, easy fabrication and good 
+isolation. The antenna is designed by using Ansoft 
+HFSSV13 simulation software and designed antenna 
+provides return loss less then -10dB. The parameters 
+such as return loss, voltage standing wave ratio (VSWR), 
+mutual coupling, gain, radiation pattern has been 
+simulated and analyzed.
+Index Terms — Industrial Scientific and Medical 
+(ISM), HFSS (High Frequency Structural simulator), 
+Double-sided printed.
+Microstrip patch antenna is a key building in wireless 
+communication and Global positioning system. A Patch 
+antenna is a radio antenna with low profile, which can be 
+mounted on a flat surface [1]. A patch antenna is a 
+narrowband and it consists of a flat rectangular sheet 
+mounted over a larger sheet of metal called as ground plane. 
+Patch antenna is simple to fabricate and easy to modify 
+and customize. Compared with conventional antenna 
+microstrip patch antenna have advantages [1] [2]. They are 
+light weight, low cost and low profile planer configuration.
+A microstrip patch antenna is well suited for wireless 
+communication [9] due to its light weight and low planer 
+configuration. The impedance bandwidth [7] [11] of a patch 
+antenna is the spacing between the patch and ground plane. 
+Patch arrays can provides higher gain then a single patch. 
+Such an array of patch antenna is an easy way to make a 
+phases array of antenna with dynamic beamforming ability. 
+The industrial, scientific and medical (ISM) bands are 
+operated at the frequency range 2.4GHZ for industrial, 
+scientific and medical purposes. The antenna is designed for 
+2.4 GHZ and it can be used for various applications like 
+WLAN, Wi-Fi family of standard (802.11 a, b, g, n) and 
+Bluetooth short range wireless [8] application. 
+Figure 1. Microstrip patch antenna
+The most commonly employed microstrip patch antenna 
+is rectangular patch antenna. Patch antenna is the ability to 
+have polarization diversity. If the dielectric constant of the 
+substrate increases, the antenna beam width decreases. 
+In section II, the single antenna is designed. In section 
+III, single antenna designed results and single antenna design 
+structure with Increasing thickness of the substrate are shown 
+in Fig 2&8 are discussed. In section IV, discuss about 
+conclusion. At last detail about reference.
+II. S INGLE ANTENNA DESIGN
+The designed antenna is printed on both sides, one side is 
+patch and other side is ground plane. Microstrip patch 
+Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 17,2026 at 12:12:58 UTC from IEEE Xplore.  Restrictions apply. 
+ 
+1115 
+ 
+antennas can be fed by a variety of methods. The antenna is 
+designed by using a microstrip feed line because it is one of 
+the easier method to fabricate. The designed antenna is used 
+as a substrate material is FR-4. The dielectric constant of the 
+substrate material is 4.4. The geometry of the given antenna 
+is illustrated in Fig.2.
+The antenna is fabricated on 76.8 X 57.8 mm 2 FR-4
+substrate with D GLHOHFWULF FRQVWDQW RI  İr) and substrate 
+thickness 1.6mm.
+Figure2. Geometry of antenna with dimensions in mm (front 
+view)
+The patch has dimension on 39.4X28.9mm 2
+III. SIMULATION RESULTS AND DISCUSSION
+and it is fed 
+by a microstrip line having width of 3.1mm. 
+A. Single Antenna Design 
+In this section, the antenna parameters such as return 
+loss, gain, voltage standing wave ratio (VSWR), radiation 
+pattern, directivity and mutual coupling.
+(1)  Return Loss
+Return loss is the loss of power in the signal reflected or 
+returned by the discontinuity of transmission line. It is 
+related to the reflection coefficient and standing wave ratio 
+(SWR). Return loss can be expressed as,
+                       RL= -20 log [ Ƚ]
+Where,
+           Ƚ- Reflection Coefficient Here designed antenna 
+provides return loss at 2.4GHZ is -28.5dB. Return loss at 
+4.5GHZ is -24dB and -22.5dB at 6.1GHZ.
+Figure 3. Return loss for Microstrip patch antenna
+Figure 3. Return loss for Microstrip patch antenna
+(2)  Bandwidth
+The range of Bandwidth describes frequencies over 
+which the antenna can properly radiate or receive energy.
+Figure 4. Bandwidth for Microstrip patch antenna
+Here designed antenna provides the bandwidth 80 MHZ at 
+2.4 GHZ, 110 MHZ at 3.6 GHZ, 120 MHZ at 4.5 GHZ and 
+130MHZ at 6.1GHZ.
+(3) Gain
+Gain is the ratio of radiation field intensity of test 
+antenna to that of the reference antenna. The gain of the 
+designed antenna is 3.97 dB.
+Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 17,2026 at 12:12:58 UTC from IEEE Xplore.  Restrictions apply. 
+ 
+1116 
+ 
+Figure 5. Gain for Microstrip patch antenna
+(4) Voltage Standing Wave Ratio
+It is defined as a measurement of the mismatch between 
+the load and the transmission line. For ideal case the value of 
+VSWR is 1 and for better matching. 
+Figure 6. VSWR for Microstrip patch antenna
+Voltage standing wave ratio of this antenna is 1.6 at 
+2.4GHZ, 1.3 at 6.1GHZ.
+(5) Radiation Pattern
+Radiation patterns are the graphical representation of the 
+electromagnetic power distribution in free space.
+Figure 7. Radiation pattern for Microstrip patch antenna
+B. Single Antenna Design with Increasing Thickness of the 
+Substrate
+Here the single antenna is designed with increasing 
+thickness of the substrate and thickness of the substrate is 
+1.8mm.
+Figure 8. Geometry of antenna with dimensions in mm 
+(front view)
+ 
+ 
+ 
+Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 17,2026 at 12:12:58 UTC from IEEE Xplore.  Restrictions apply. 
+ 
+1117 
+ 
+C. Simulation Analysis
+In this section, the antenna parameters such as return 
+loss, gain, voltage standing wave ratio (VSWR), radiation 
+pattern, directivity and mutual coupling.
+(1)  Return Loss
+It is a measure of the effectiveness of an antenna to 
+deliver of power from source to the antenna. For various 
+resonant frequencies with bandwidth is obtained.
+                                                                                                         
+Fig.9. Return loss for Microstrip patch antenna
+Here the return loss is -23dB at 2.4GHZ, -15dB at 
+Figure 9. Return loss for Microstrip patch antenna
+4.5GHZ, -12dB at 4.9GHZ and -19dB at 6.1GHZ.
+(2) Bandwidth
+Here designed antenna provides the bandwidth 90 MHZ 
+at 2.4 GHZ, 210 MHZ at 4.5 GHZ, 100 MHZ at 4.9 GHZ 
+and 160MHZ at 6.1GHZ.
+Figure 10. Bandwidth for Microstrip patch antenna
+(3) Gain        
+Gain as a parameter measures the directionality of 
+antenna. Here gain of the antenna is 4.22 dB.
+Figure 11. Gain for Microstrip patch antenna
+(4)  Voltage Standing Wave Ratio (VSWR)           
+It is defined as a measurement of the mismatch between 
+the load and the transmission line. For ideal case value of 
+VSWR is 1 and for better matching. The VSWR of designed 
+antenna is 1.2 at 2.4GHZ and 1.8 at 6.1GHZ.
+Figure 12. VSWR for Microstrip patch antenna
+ 
+ 
+ 
+ 
+Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 17,2026 at 12:12:58 UTC from IEEE Xplore.  Restrictions apply. 
+ 
+1118 
+ 
+(5) Directivity
+Directivity is a figure of merit for an antenna. Directivity 
+measures power density of an antenna that radiates in the 
+direction of strongest emission.
+Figure13. Directivity for Microstrip patch antenna
+The directivity of the proposed antenna is 7.22dB at phi 
+equals to 0, 90 & 180 degree at 2.4GHZ.
+D. Applications\
+The designed antenna is used for ISM (industrial, 
+scientific, medical) and WLAN.
+IV. CONCLUSION
+Finally Microstrip patch antenna is designed for 2.4GHz 
+using HFSS simulation software. Two configuration of 
+antenna is proposed. The first configuration is single antenna 
+design structure. The second configuration is single antenna 
+design structure with increasing thickness of the substrate. 
+The designed antenna structure operated at various frequency 
+bands like 2.4 GHz, 3.6 GHz, 4.5 GHz, 6.1GHZ and 
+7.1GHZ. Those frequency bands can be applied for various 
+applications. The applications are ISM band, WLAN[8]. The 
+return loss has been achieved -23dB at 2.4 GHZ. Further the 
+antenna is designed using antenna array [12] [13].
+TABLE.1    COMPARISON BETWEEN EXISTING METHOD 
+AND PROPOSED METHOD
+S.NO PARAMETER EXISTING 
+METHOD
+PROPOSED 
+METHOD
+1. GAIN 3.97dB 4.22dB
+2. VSWR 2.4GHZ: 1.6
+6.1GHZ: 1.3
+2.4GHZ: 1.2
+6.1GHZ: 1.8
+3. RETURN 
+LOSS
+2.4GHZ: -
+28.5dB
+4.5GHZ: -
+24dB
+6.1GHZ: -
+22.5dB
+2.4GHZ: -23dB
+4.5GHZ: -15dB
+6.1GHZ: -19dB
+REFERENCES
+[1] N. Herscovici, “New considerations in the design of 
+microstrip antennas.” IEEE Transactions on Antennas and 
+Propagation, AP- 46, 6, June 1998, pp. 807-812. 
+[2] Keith R. Carver, member, IEEE, and James W. Mink, 
+member, IEEE “Microstrip Antenna Technology” IEEE
+Transactions on Antennas and Propagation, Vol. AP-29, No. 
+1, Jan 1981. 
+[3] Balanis CA. Antenna theory, analysis and design. New York: 
+John Wiley & Sons, Inc.; 1997.
+[4] K.R. Carver and J.W. Mink, “Microstrip Antenna 
+Technology,” IEEE Trans. Antennas Propag. , Vol. AP-29,
+No. 1, pp. 2–24, January 1981.
+[5] A.D.Yaghjian and S. R. Best, "Impedance, Bandwidth, and Q 
+of Antennas," IEEE Transactions on Antennas and 
+Propagation, AP-53, 4, April 2005, pp. 1 298- 1 324.
+[6] Bhardwaj, Dheeraj, et al. "Design of square patch antenna
+with a notch on FR4 substrate." Microwaves, Antennas & 
+Propagation, Vol.51,No.3, 880-885, 2008.
+[7] Zaker, Reza, Changiz Ghobadi, and Javad 
+Nourinia,"Bandwidth enhancement of novel compact single 
+and dual band-notched printed monopole antenna with a pair 
+of L-shaped slots." Antennas and Propagation, IEEE 
+Transactions on Vol.57, No.12, 2009.
+[8] M A Matin, M.P Saha, H. M. Hasan “Design of Broadband 
+Patch Antenna for WiMAX and WLAN,”on ICMMT 
+Proceedings, Vol.4,No.1-3, 2010.
+[9] Kin-Lu Wong, Planar Antennas for Wireless 
+Communications, Wiley interscience, 2005.
+[10] Shimels Mamo,”Analysis and Design of Dual band Microstrip 
+Antennas for Mobile Handsets Master’s thesis, Unpublished,  
+2005.
+[11] Wong, K.-L., Compact and Broadband Microstrip Antennas,
+John Wiley and Sons Inc., New York, NY, 2002.
+[12] Gupta, I. J., J. A. Ulrey and E. H. Newman, antenna element 
+bandwidth and adaptive Array performance," Proc. 2005 
+IEEE AP-S, 295{298, 2005.
+[13] Katajamaki, T., A compact dual-band phased array antenna 
+for outdoor WLAN,"IEEE Vehicular Technology Conference,
+5963, 2004.
+  
+Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 17,2026 at 12:12:58 UTC from IEEE Xplore.  Restrictions apply. 

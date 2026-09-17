@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: antenna-reconstruction
+Version: 0.1.0
+Summary: Antenna Reconstruction Pipeline
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: pydantic>=2.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"

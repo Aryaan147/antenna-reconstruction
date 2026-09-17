@@ -1,0 +1,417 @@
+/;#23#23#23
+Abstract—- An array of Rectangular Microstrip Antenna 
+(RMSA) is designed and compared with single patch RMSA 
+and optimized for obse rving an increase in  directivity along 
+with achieving expected radiatin g parameters such as S11 < -
+10dB and Side Lobe Level (SLL) < -20dB using IE3D 
+simulator. Maximum directivity of 13.058dBi is obtained by 
+implementing four by two (4x2) array of eight patches as 
+compared to 6.74dBi for single patch for the application of 
+WLAN at 2.4 GHz centre frequency. The parametric variations 
+are done for obtaining desired results.
+ Keywords — RMSA, Four by Two Array (4x2), IE3D, FR4.
+I. INTRODUCTION 
+n antenna plays a very important role in wireless 
+communication systems. For applications emerging of
+compact size technologies, m icrostrip antennas are 
+used because of their low cost, portability, versatile, 
+conformal and other factors supporting the needs. But 
+microstrip antennas also have  disadvantages like narrow 
+bandwidth, low gain and excitation of unwanted surface 
+waves. Hence antenna arrays ar e used to overcome for these 
+disadvantages, thereby introducin g microstrip patch arrays. 
+This technology of microstrip  arrays makes it possible to 
+provide high gain, desired radiation pattern, appropriate 
+beamwidth with least cost and less space. Recent advances 
+have shown increase in the bandwidth and gain using 
+microstrip array [1].
+  For desired radiation pattern and directivity each element 
+in the array can be fed in many ways ;    a) same amplitude 
+and same phase difference b) same amplitude and varying 
+phase difference c) varying amplitude and same phase 
+difference and d) varying amplitude and varying phase 
+difference. But uniform arrays are used which are easy for 
+construction [2], [4]. 
+  In this paper four by two (4x2) array, edge fed by a 
+microstrip line for WLAN at 2.4 GHz is presented using 
+inset feeding method in contrast to reference [2] where a four 
+by one (4x1) array is designed for WiMAX application at 2.5 
+GHz.
+   Quarter wave transforme rs are used to match the 
+impedance of the transmission lines considering SMA 
+connector at the input to the antenna [4]. The resonant 
+frequency is determined to be 2.4 GHz.   
+  Using IE3D simulator, the op timized antenna array of 4x2 
+patches gives a return loss (S11) of -19.64dB. Many 
+optimizations are carried out by  for getting better expected 
+results for gain and direc tivity. Next part explains the 
+antenna designing procedure respectively. 
+II. A NTENNA DESIGN
+   Starting with the designing of a rectangular microstrip 
+patch antenna, there are some  parameters chosen. Those 
+are substrate related parameters such as its relative 
+permittivity, loss tangent and height of the substrate. 
+Available dielectric lies in the range from 2.2< ε r <12, and 
+lower permittivity is  chosen for better performance [2] in 
+terms of gain. FR4 substrate is chosen having εr as 4.3 and 
+the loss tangent as 0.01 with 1.6mm as thickness as it is 
+easily available. 
+  A single patch is designe d for the given application and 
+selected substrate. And consequently 4x2 array is designed 
+for comparing its performance with that of single patch. 
+Table I depicts the material specification selected for the 
+design and application.
+TABLE I   DESIGN SPECIFICATION FOR RECTANGULAR 
+PATCH ANTENNA 
+Centre Frequency 2.4 Gz
+Substrate FR4
+Dielectric Constant εr 4.3
+Substrate height 1.6mm
+Loss Tangent (tan δ) 0.01
+A. Single patch antenna design dimension :
+  The objective of this part is to design parameters for a 
+single patch, feedline specif ications and also the quarter 
+wave transformer length. Tran smission line method is used 
+for designing [4]. The width W and length L is calculated as 
+follows: 
+W = /;#23#23#23#23#23#23#23#23#23#23#23/;#23#23#23#23#23#23#23#23#23#23#23#231 / 22
+r /;#23#23#23#23#23#23#23#23#23#23#23#23#23#23/g72
+rf
+c               ( 1 )  
+εeff = /g184
+/g185
+/g183/g168
+/g169
+/g167/;#23#23#23#23#23#23#23#23#23#23#23#23#23#23/;#23#23#23#23#23#23#23#23#23#23#23#23#23#23#23#23/;#23#23#23#23#23#23#23#23#23#23#23#23#23#23/;#23#23#23#23#23#23#23#23#23#23#23#23#23#23
+W
+hr r
+1212
+1
+2
+1 /g72 /g72          ( 2 )  
+Electronics & Telecommunication
+K.J.Somaiya College of Engg.
+Mumbai, India
+bhartisingh@somaiya.edu
+Design of Rectangular Microstrip 4x2 Patch Array Antenna at 
+2.4 GHz for WLAN Application
+Amitha.R.Nair Bharati A. Singh S.S. Thakur
+Electronics & Telecommunication
+Shree L.R. Tiwari College of Engg.
+Thane, India
+nair.amitha@gmail.com
+Electronics & Telecommunication
+Shree L.R. Tiwari College of Engg.
+Thane, India
+sanjayami@gmail.com
+A
+2015 Second International Conference on Advances in Computing and Communication Engineering
+978-1-4799-1734-1/15 $31.00 © 2015 IEEE
+DOI 10.1109/ICACCE.2015.18
+53
+Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 17,2026 at 12:23:11 UTC from IEEE Xplore.  Restrictions apply. 
+L1 =
+r rf
+c
+/g722
+                ( 3 )  
+ΔL = /g184/g184
+/g185
+/g183
+/g168/g168
+/g169
+/g167
+/;#23#23#23#23#23#23#23#23#23#23#23#23#23#23
+/;#23#23#23#23#23#23#23#23#23#23#23#23#23#23/g184
+/g185
+/g183/g168
+/g169
+/g167
+/;#23#23#23#23#23#23#23#23#23#23#23#23#23#23#23#23
+/;#23#23#23#23#23#23#23#23#23#23#23#23#23#23
+8 . 0 ) / (
+264. 0 ) / (
+258. 0
+3 . 0412. 0 h W
+h W
+eh
+ff
+eff
+/g72
+/g72     ( 4 )  
+L = L1 - 2 ΔL                ( 5 )  
+ The structure shown in Fig. 1 is of a single patch RMSA 
+(Rectangular Microstrip Antenna ) which is inset fed by 
+design. 
+Calculation for feedline: 
+  The width of the feedline is an important parameter for 
+designing single patch as well as for the array designing [5], 
+[6]. 
+A = /g184
+/g185
+/g183/g168
+/g169
+/g167 /;#23#23#23#23#23#23#23#23#23#23#23#23#23#23/;#23#23#23#23#23#23#23#23#23#23#23#23#23#23#23#23/;#23#23#23#23#23#23#23#23#23#23#23#23#23#23/;#23#23#23#23#23#23#23#23#23#23#23#23#23#23
+r
+r rZ
+/g72
+/g72 /g72 11 . 023 . 02
+1
+2
+1
+60
+0
+      (6) 
+B =
+rZ /g72
+/g83
+0* 2
+*377                  ( 7 )  
+Width of feedline: 
+Wf =
+/g191
+/g190
+/g189
+/g175
+/g174
+/g173 /g184
+/g185
+/g183/g168
+/g169
+/g167 /;#23#23#23#23#23#23#23#23#23#23#23#23#23#23#23#23 /;#23#23#23#23#23#23#23#23#23#23#23#23#23#23 /;#23#23#23#23#23#23#23#23#23#23#23#23#23#23#23#23/;#23#23#23#23#23#23#23#23#23#23#23#23#23#23#23#23/;#23#23#23#23#23#23#23#23#23#23#23#23#23#23 /;#23#23#23#23#23#23#23#23#23#23#23#23#23#23#23#23 /;#23#23#23#23#23#23#23#23#23#23#23#23#23#23#23#23 /;#23#23#23#23#23#23#23#23#23#23#23#23#23#23#23#23
+rr
+r
+BB Bh
+/g72/g72
+/g72
+/g83
+61. 039. 0 ) 1ln(2
+1) 1 2ln(12
+                       ( 8 )  
+  
+B. Quarter wave transformer: 
+  The impedance for matching the 50Ω coaxial cable to the 
+patch antenna and width and length of the transformer line is 
+calculated in this session [3], [4]. Impedance of the patch can 
+be given as, 
+Figure 1. Patch antenna with inset feed 
+Figure 2. Patch array antenna with inset feed 
+Zp =
+22
+1
+90 /g184
+/g185
+/g183/g168
+/g169
+/g167
+/;#23#23#23#23#23#23#23#23#23#23#23#23#23#23#23#23W
+L
+r
+r
+/g72
+/g72                ( 9 )  
+yo =
+1
+01cos Z
+Z L/;#23#23#23#23#23#23#23#23#23#23#23#23#23#23#23#23
+/g83
+              ( 1 0 )
+where, 
+Z1 =
+                 ( 1 1 )  
+C. Microstrip 4x2 arra y design procedure: 
+ As shown in Fig. 2, 4x2 array patch antenna designed 
+using the configuration for single patch. All the above 
+formulas are used to get the width and length dimension of 
+the patch and also the feed lin es. Quarter wave transformer 
+of λ/4 length and impedance 70 Ω is stuffed to match 100Ω 
+and50Ω lines. Distance between patches is kept as λ/2.
+But for inset fed method the 50 Ω is divided into two 100 
+Ω microstrip lines thus dividing the power and phase equally 
+forming uniform array.  Th e 100 Ω and 50 Ω is matched by 
+quarter wave transformer. The inset length y o for the inset 
+fed method is calculated using “(9), (10) and (11)”. 
+III. RESULTS AND DISCUSSIONS
+Methods to increase gain can be acquired by changing the 
+material or by use of superstrate, but by using simple design 
+and changing patch parameters of array as well desired gain 
+can be obtained. Many optimizations are performed by 
+changing the width and length of the patches to obtain better 
+values of radiating parameters as in Table II. The simulated 
+results obtained better than the expected values are chosen to 
+act as a good radiator which is highlighted in Table II. A 
+single patch having L=29.89mm and W = 38.3934mm is 
+observed to give S11 = -10.14dB than calculated value of -
+3.74dB and VSWR = 1.98 rather than 2.46.  Similarly, 4x2 
+array designed is optimized by  length and width in which, 
+L=29.78mm and W=38.3934mm is chosen to obtain S11= -
+54
+Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 17,2026 at 12:23:11 UTC from IEEE Xplore.  Restrictions apply. 
+19.64dB and VSWR=1.26. Comparisons can be made 
+directly with respect to the radiating parameters which points 
+TABLE II: DESIGN SPECIFICATION:
+Type of 
+antenna
+Patch
+width
+W (mm)
+Patch 
+Length 
+L(mm)
+S11 
+(dB) VSWR
+Directivity
+(dBi)
+(D)
+HPBW
+Single   
+Patch
+From 
+Calculation
+38.3934 29.786 -3.744 2.46 - -
+Length 
+adjustment
+38.3934 29.8 -8.01 2.4 6.74 82
+38.3934 29.9 -8.6 2.2 6.74 84
+38.3934 29.88 -10.08 1.99 6.74 82
+38.3934 29.89 -10.14 1.98 6.74 82
+Width 
+adjustment
+38.39 29.78 -6.11 3 6.74 82
+37 29.78 -9.73 2 6.74 82
+36.6 29.78 -9.99 2 6.74 82
+36.4 29.78 -10.05 1.99 6.74 82
+4x2 From 
+Calculation
+38.3934 29.786 -3.744 2.46 - -
+Length
+adjustment
+38.3934 29.78 -19.64 1.26 13.058 20
+38.3934 29.88 -11.08 1.77 12.53 24
+38.3934 29.9 -10.8 1.8 12.5 25
+Width 
+adjustment
+38 29.78 -9.5 2 12.08 30
+38.2 29.78 -9 2 12 32
+38.39 29.78 -9.2 2.07 13.14 30
+out that the array antenna gives a directive and narrower beam 
+than that of the single patch an tenna. From Table II, it can be 
+seen that HPBW of 20 0 is obtained which is narrower than 
+820. 
+As shown in the Fig. 3 below, the S11 obtained for the 
+array designed is -19.64dB which  is best observed as per the 
+optimized values in IE3D. The VSWR plot of the designed 
+array is observed to by 1.26 as seen in the Fig.  4. And the 
+bandwidth is around 0.24 GHz , which is far better than 
+single patch antenna.  
+Figure 3. S11 of patch array antenna. 
+Figure 4. VSWR of patch array antenna 
+   
+  The Fig. 5 shown below descr ibes the difference between 
+gain of a single patch and 4x 2 array. The diagram depicts 
+that the array is more directiv e and has higher gain with 
+respect to the single patch. The gain of array is observed to 
+be 10.5dB and the directivity (D) is obtained as 13.058dBi 
+as shown in Fig. 6.  
+  The Half Power Beam Width (HPBW) obtained is also 
+narrow for the array rather than the single patch RMSA 
+which is 200 compared to 820. 
+Figure 5. Comparison of Gain between single patch and 4x2 
+Array at 2.4GHz using IE3D 
+dB
+Frequency (GHz)
+VSWR
+Frequency (GHz)
+Radiation of 
+4x2 array
+Radiation of 
+single element 
+55
+Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 17,2026 at 12:23:11 UTC from IEEE Xplore.  Restrictions apply. 
+Figure 6. Directivity of patch array antenna at 2.4GHZ using IE3D 
+ Also a comparison can be made clearly from the next 
+table, Table III that the selec ted optimization from [2] and 
+simulations carried out here st rikes that  4x2 yields better 
+radiation parametric values such as gain, directivity etc., S11 
+and VSWR being close to that of 4x1. Also the HPBW is 
+narrower in the case of 4x2 indicating more directivity. 
+The 3D diagram of radiation pa ttern of a single patch and 
+the patch array of 4x2 designed as shown in the following 
+Fig. 7 and Fig. 8.
+TABLE III: COMPARISON TABLE [2]: 
+SR.NO
+Type
+L(mm) W(mm) Gain
+(dB)
+S11
+(dB)
+D
+(dBi)
+HPBW
+(deg)
+1.Single
+Patch
+2.4 GHz 38.393 29.89 3.7 -10.14 6.74 82
+2.5 GHz
+[2]
+34.93 25.48 0.837 -15.4 5.8 NS
+2. 
+Array
+4x2
+(2.4GHz)
+38.393 29.78 10.5 -19.64 13.05
+8
+20
+4x1
+(2.5 GHz)
+[2]
+34.93 25.1 5.732 -20.2 10.2 24.9
+Figure 7. Radiation pattern of patch array antenna at 2.4 GHz 
+Figure 8. Radiation pattern of single patch at 2.4GHZ 
+IV. CONCLUSION 
+ A comparison is carried ou t between a single microstrip 
+patch with the array of 4x2 (eight elements) in terms of 
+important radiation parameters. The performance of the array 
+outcomes the required results rather than the single patch for 
+directivity, gain, return loss (S11) as well as the bandwidth. 
+The desired requirements for 2. 4 GHz is satisfied by 4x2 
+eight element patch array which gives return loss of about 
+−19.64dB and a VSWR of 1.26 at the centre frequency of 
+2.4GHz. Additionally, the performance of the array is 
+optimized by adjusting the lengt h and width of each patch 
+gives gain of 10.5dB relative to  3.7dB of single patch. It 
+depends on other factors also such as feeding technique, 
+substrate type, thickness of dielectric etc. respectively.  
+REFERENCES 
+[1] C. A.Balanis, Antenna Theory , 2nd  ed.,  Arizona State    
+University: John Wiley & Sons,Inc., 1997.pp.722-723.
+[2] Norfishah Ab Wahab, “Microstrip Rectangular 4 x1 Patch Array 
+Antenna at 2.5GHz for WiMax Application,” IEEE computer society 
+2010.
+[3] D. M.Pozar, Microwave Engineering, 3rd Edition,  University of 
+Massachusetts at Amherst: John Wiley & Sons,Inc. 
+[4] John D Krauss, Antenna and wave propagation, 4th edition, Tata 
+McGraw Hill, New Delhi, 2010. 
+[5] Yahya S. H. Khraisat, “Design of 4 elements rectangular microstrip 
+patch antenna with high gain for 2.4 GHz applications ,” Modern 
+Applied Science, Vol. 6, No.1, January 2012. 
+[6] Ahmed Fatthi Alsager, “Design and Analysis o f Microstrip Patch 
+Antenna Arrays,” Thesis from University of College of Boras. 
+[7] Muhammad Mahfuzul Alam, “Design and Performance Analysis of 
+Microstrip Array Antenna ,” Progress In Electromagnetics Research 
+Symposium Proceedings, Moscow, Russia, August 18-21, 2009.  
+[8] B. Sai Sandeep, “ Design and simulation of microstrip patch array 
+antenna For wireless communications at 2.4 GHz, ” International 
+Journal of Scientific & Engineering Research, Volume 3, Issue 11, 
+November-2012.
+[9] Mohammad Tariqul Islam, “A 4×1 L-probe fed Inverted Hybrid E-H
+Microstrip Patch Antenna Array for 3G Application, ” American 
+Journal of Applied Sciences, 2007.
+[10] V.R. Anitha, “Design of an 8X1 Square Microstrip Patch Antenna 
+Array,” International Journal of Electronic Engineering Research 
+Volume 1 No.1, 2009.
+[11] George Casu, “Design and Implementation of Microstrip Patch
+Antenna Array,” Military Technical Academy, Faculty of Electronics 
+and Informatics, IEEE, 2014.
+56
+Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 17,2026 at 12:23:11 UTC from IEEE Xplore.  Restrictions apply. 
