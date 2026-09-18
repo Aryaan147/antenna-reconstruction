@@ -28,6 +28,14 @@ ASSIGN_RE = re.compile(rf"\b([A-Za-z]{{1,3}}\s?[0-9]?)\s*=\s*({NUM})\s*mm\b")
 ALIAS_RE = re.compile(r"\b([A-Za-z]{1,3}\s?[0-9]?)\s*=\s*([A-Za-z]{1,3}\s?[0-9]?)\b(?!\s*=)")
 # "width of 3.1mm", "thickness = 1.6 mm"
 NAMED_EXTENT_RE = re.compile(rf"\b(width|length|height|thickness|radius|diameter)\b[^.]{{0,20}}?({NUM})\s*mm")
+# A width that is explicitly the FEED's. An unqualified "width" must never be
+# taken for one: "optimized by length and width in which, L=29.78mm" would
+# otherwise bind a patch length as a feed width, silently and wrongly.
+FEED_WIDTH_RE = re.compile(
+    rf"(?:feed\s*-?\s*line|feedline|microstrip\s+line|feed)[^.]{{0,40}}?"
+    rf"\bwidth\b[^.]{{0,15}}?({NUM})\s*mm",
+    re.IGNORECASE,
+)
 
 ROLE_KEYWORDS = {
     "substrate": "substrate",
@@ -63,6 +71,7 @@ class ProseExtraction(BaseModel):
     contested: Dict[str, List[float]] = Field(default_factory=dict)
     pairs: List[DimensionPair] = Field(default_factory=list)
     named_extents: Dict[str, float] = Field(default_factory=dict)
+    feed_width: Optional[float] = None
     diagnostics: List[str] = Field(default_factory=list)
 
 
@@ -142,6 +151,14 @@ def extract_prose_parameters(text: str) -> ProseExtraction:
     for m in NAMED_EXTENT_RE.finditer(flat):
         out.named_extents.setdefault(m.group(1).lower(), float(m.group(2)))
 
+    widths = {float(m.group(1)) for m in FEED_WIDTH_RE.finditer(flat)}
+    if len(widths) == 1:
+        out.feed_width = widths.pop()
+    elif len(widths) > 1:
+        out.diagnostics.append(
+            f"several feed widths stated in prose ({sorted(widths)}); none used"
+        )
+
     return out
 
 
@@ -219,11 +236,7 @@ def to_template_symbols(extraction: ProseExtraction) -> Dict[str, float]:
         values.setdefault("W", patch.a)
         values.setdefault("L", patch.b)
 
-    if "feed" in by_role or "width" in extraction.named_extents:
-        feed = unique_pair("feed")
-        if feed is not None:
-            values.setdefault("FW", min(feed.a, feed.b))
-        elif "width" in extraction.named_extents:
-            values.setdefault("FW", extraction.named_extents["width"])
+    if extraction.feed_width is not None:
+        values.setdefault("FW", extraction.feed_width)
 
     return values

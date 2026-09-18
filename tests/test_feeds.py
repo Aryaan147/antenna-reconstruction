@@ -89,3 +89,11 @@ def test_a_wrong_inset_depth_is_refuted():
 def test_a_partial_inset_specification_is_reported_not_assumed():
     result = RectangularPatchTemplate().build(dict(MICROSTRIP, FI=9.25))
     assert any("inset feed" in u for u in result.underdetermined)
+
+
+def test_missing_reverse_ground_is_reported_not_silently_dropped():
+    """A microstrip patch has a ground sheet on the back. Omitting it without
+    saying so would be exactly the silent loss this project exists to avoid."""
+    result = RectangularPatchTemplate().build(MICROSTRIP)
+    assert any("ground plane" in u for u in result.underdetermined)
+    assert not any(s.layer.value == "GROUND" for s in result.shapes)

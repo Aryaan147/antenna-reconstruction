@@ -78,6 +78,13 @@ class RectangularPatchTemplate(Template):
                 "emitted anchored at the origin"
             )
 
+        result.underdetermined.append(
+            "reverse-side ground plane: this family is a microstrip antenna, so "
+            "a ground sheet on the back of the substrate is implied. No paper "
+            "figure shows it (they are front views) and no symbol gives its "
+            "extent, so it is neither drawn nor assumed to be full-sheet"
+        )
+
         patch_ring = None
         try:
             patch_ring = rectangle(x0, y0, x0 + W, y0 + L)

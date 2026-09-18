@@ -19,6 +19,18 @@ from ..geometry.primitives import (
 from .base import Layer, Shape, Template, TemplateResult
 
 
+def _report_missing_ground(result: TemplateResult) -> None:
+    """A microstrip family implies a reverse-side ground that is never drawn.
+
+    Silently leaving it out would be the kind of omission this project exists
+    to avoid, so it is reported even though nothing states its extent.
+    """
+    result.underdetermined.append(
+        "reverse-side ground plane: implied by this family but no symbol gives "
+        "its extent, and the paper figures are front views; not drawn"
+    )
+
+
 def _substrate(values: Dict[str, float], result: TemplateResult):
     """Emit a substrate when its extents are stated; report it when they are not."""
     if "SW" in values and "SL" in values:
@@ -64,6 +76,7 @@ class CircularPatchTemplate(Template):
         from ..binding.verifier import verify
         result.verification = verify(values, self.relations())
         cx, cy = _substrate(values, result)
+        _report_missing_ground(result)
 
         try:
             result.shapes.append(Shape(
@@ -109,6 +122,7 @@ class AnnularRingTemplate(Template):
             return result
 
         cx, cy = _substrate(values, result)
+        _report_missing_ground(result)
         try:
             result.shapes.append(Shape(
                 id="ring", layer=Layer.RADIATOR,
@@ -145,6 +159,7 @@ class TriangularPatchTemplate(Template):
         from ..geometry.primitives import circumradius_from_edge
         result.verification = verify(values, self.relations())
         cx, cy = _substrate(values, result)
+        _report_missing_ground(result)
 
         try:
             # orientation 90 puts one vertex up and a horizontal base, as drawn
@@ -205,6 +220,7 @@ class PatchArrayTemplate(Template):
 
         W, L, DX, DY = values["W"], values["L"], values["DX"], values["DY"]
         cx, cy = _substrate(values, result)
+        _report_missing_ground(result)
 
         span_x, span_y = (nx - 1) * DX, (ny - 1) * DY
         x0, y0 = cx - span_x / 2.0, cy - span_y / 2.0
@@ -290,6 +306,7 @@ class TrimmedSquarePatchTemplate(Template):
             )
         else:
             cx, cy = _substrate({}, result)
+        _report_missing_ground(result)
 
         x0, y0 = cx - side / 2.0, cy - side / 2.0
         c = chamfer

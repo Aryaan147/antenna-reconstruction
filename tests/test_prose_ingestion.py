@@ -82,3 +82,29 @@ def test_real_paper_prose_yields_the_published_dimensions():
     )
     assert values["SW"] == 76.8 and values["SL"] == 57.8
     assert values["W"] == 39.4 and values["L"] == 28.9
+
+
+def test_an_unqualified_width_is_never_taken_for_a_feed_width():
+    """Regression: "optimized by length and width in which, L=29.78mm" was
+    binding a patch length as the feed width, silently and wrongly."""
+    extraction = extract_prose_parameters(
+        "4x2 array designed is optimized by length and width in which, "
+        "L=29.78mm and W=38.3934mm."
+    )
+    assert extraction.feed_width is None
+    assert "FW" not in to_template_symbols(extraction)
+
+
+def test_a_feed_qualified_width_is_read():
+    extraction = extract_prose_parameters(
+        "it is fed by a microstrip line having width of 3.1mm."
+    )
+    assert extraction.feed_width == 3.1
+    assert to_template_symbols(extraction)["FW"] == 3.1
+
+
+def test_conflicting_feed_widths_are_not_used():
+    extraction = extract_prose_parameters(
+        "The feed line width is 3.1 mm. A feed line of width 2.4 mm was also tried."
+    )
+    assert extraction.feed_width is None
