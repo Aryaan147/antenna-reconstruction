@@ -10,15 +10,23 @@ undetermined rather than guessed**.
 **`template_pipeline.TemplatePipeline`** — the path that works on real papers.
 
 ```text
-PDF --> tables + prose --> template match --> BINDING VERIFICATION --> geometry --> DXF
-                                                      |
-                                                 refuted? stop.
+PDF --> tables + prose + derived --> template match --> BINDING VERIFICATION --> geometry --> DXF
+                                                                |
+                                                          refuted? stop.
 ```
 
 Dimensions are read from parameter tables where they exist and from running
-text where they do not. Tables outrank prose: a table is an explicit structured
-statement, prose is recovered by pattern matching over text a PDF extractor may
-have mangled.
+text where they do not, and a third source computes what a paper implies but
+never prints. Authority runs tables > prose > derived: a printed value always
+beats one this code worked out.
+
+**Derived quantities.** The array paper states only "Distance between patches is
+kept as lambda/2" - but it also states a 2.4 GHz centre frequency, and a
+wavelength follows by definition. `derived/physics.py` computes it
+(`lambda0 = c/f = 124.91 mm`, so spacing = 62.46 mm) and carries the formula and
+inputs with the value, so a computed number is never mistaken for a stated one.
+Where a paper quotes many frequencies and marks none as its design frequency,
+nothing is derived.
 
 **`pipeline.AntennaReconstructionPipeline`** — the original sentence-level path
 (Components 1-3: regex extraction, SymPy constraint solving, CAD build). It
@@ -71,7 +79,7 @@ python examples/render_reconstruction.py
 |---|---|---|---|---|
 | hexagonal_ring_antenna | table (14 symbols) | hexagonal_ring_cpw_monopole | yes | **yes** (3/3) |
 | microstrip_patch_antenna | prose | rectangular_patch | yes | no (no redundancy) |
-| rectangular_patch_array | table headers | rectangular_patch | yes | no (no redundancy) |
+| rectangular_patch_array | table headers + derived | rectangular_patch_array | yes | **yes** (2/2) |
 | square_patch_antenna | prose | — | no | contested symbols |
 | synthetic_antenna | — | — | no | no planar geometry stated |
 
@@ -111,7 +119,7 @@ Run it for each new template: it is the only check that catches a wrong
 | template | symbols | verified by |
 |---|---|---|
 | `hexagonal_ring_cpw_monopole` | `L W S1..S4 H1 H2 F1 FW FL G1 GL W1` | 3 relations |
-| `rectangular_patch` | `W L` + optional `SW SL` | none available |
+| `rectangular_patch` | `W L` + optional `SW SL FW FI FG FL` | inset feed length |
 | `circular_patch` | `R` + optional `D` | `D = 2R` |
 | `annular_ring` | `RO RI` + optional `WR` | `WR = RO - RI` |
 | `triangular_patch` | `ST` + optional `HT` | `HT = ST*sqrt(3)/2` |
@@ -135,6 +143,8 @@ src/antenna_reconstruction/
   coordinate_engine/       Component 2 - SymPy constraint solving (no LLM)
   cad_builder/             Component 3 - geometry -> DXF, layer-aware
   geometry/primitives.py   polygons, uniform insets, boolean difference
+  geometry/feeds.py        microstrip lines and inset feeds
+  derived/physics.py       quantities a paper implies but never prints
   binding/verifier.py      the propose-then-verify engine
   templates/               parametric antenna families (7 shapes)
   template_pipeline.py     PDF -> DXF
@@ -173,6 +183,6 @@ hexagons being flat-top, the ring sitting on the feed — is recorded in
 python -m pytest tests -q
 ```
 
-105 tests. `tests/test_no_silent_success.py` pins the regression that motivated
+125 tests. `tests/test_no_silent_success.py` pins the regression that motivated
 this design: the pipeline used to return success with an empty DXF.
 `tests/test_papers_end_to_end.py` pins what each sample paper should produce.

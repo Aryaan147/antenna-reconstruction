@@ -10,6 +10,7 @@ import re
 from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, Field
 
+from ...derived.physics import PhysicsExtraction, extract_physics, derived_symbols
 from .prose import ProseExtraction, extract_prose_parameters
 
 # A symbol like W, L, S1, H_1, F_W, GL. Deliberately narrow: parameter symbols
@@ -44,13 +45,17 @@ class PdfDocument(BaseModel):
     tables: List[RawTable] = Field(default_factory=list)
     parameter_tables: List[ParameterTable] = Field(default_factory=list)
     prose: Optional["ProseExtraction"] = None
+    physics: Optional["PhysicsExtraction"] = None
 
-    def merged_parameters(self, include_prose: bool = True) -> Dict[str, float]:
-        """Every source merged, tables first.
+    def merged_parameters(self, include_prose: bool = True,
+                          include_derived: bool = True) -> Dict[str, float]:
+        """Every source merged, in order of authority.
 
         Tables outrank prose: a parameter table is an explicit, structured
-        statement of the design, whereas prose is recovered by pattern
-        matching over text a PDF extractor may have mangled.
+        statement of the design, whereas prose is recovered by pattern matching
+        over text a PDF extractor may have mangled. Derived quantities rank
+        last: they are computed rather than stated, so a printed value always
+        wins over one this code worked out.
         """
         merged: Dict[str, float] = {}
         for pt in self.parameter_tables:
@@ -61,10 +66,27 @@ class PdfDocument(BaseModel):
             from .prose import to_template_symbols
             for k, v in to_template_symbols(self.prose).items():
                 merged.setdefault(k, v)
+
+        if include_derived and self.physics is not None:
+            for k, v in derived_symbols(self.physics).items():
+                merged.setdefault(k, v)
         return merged
 
     def diagnostics(self) -> List[str]:
-        return list(self.prose.diagnostics) if self.prose is not None else []
+        out: List[str] = []
+        if self.prose is not None:
+            out.extend(self.prose.diagnostics)
+        if self.physics is not None:
+            out.extend(self.physics.diagnostics)
+        return out
+
+    def derivations(self) -> List[str]:
+        if self.physics is None:
+            return []
+        return [q.summary() for q in self.physics.derived]
+
+    def physics_assumptions(self) -> List[str]:
+        return list(self.physics.assumptions) if self.physics is not None else []
 
 
 def _clean(cell: Optional[str]) -> str:
@@ -237,6 +259,7 @@ def extract_pdf(path: str, source_id: Optional[str] = None) -> PdfDocument:
 
     doc.text = "\n".join(text_parts)
     doc.prose = extract_prose_parameters(doc.text)
+    doc.physics = extract_physics(doc.text)
     return doc
 
 

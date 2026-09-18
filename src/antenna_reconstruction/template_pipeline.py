@@ -28,6 +28,8 @@ class ReconstructionResult(BaseModel):
     verification: Optional[VerificationReport] = None
     underdetermined: List[str] = Field(default_factory=list)
     assumptions: List[str] = Field(default_factory=list)
+    # Values computed from stated facts rather than printed by the paper.
+    derivations: List[str] = Field(default_factory=list)
     diagnostics: List[str] = Field(default_factory=list)
 
     def render(self) -> str:
@@ -37,6 +39,9 @@ class ReconstructionResult(BaseModel):
         if self.verification is not None:
             lines.append("verification:")
             lines.extend("  " + ln for ln in self.verification.render().split("\n"))
+        if self.derivations:
+            lines.append("derived (computed, not printed by the paper):")
+            lines.extend(f"  - {d}" for d in self.derivations)
         if self.assumptions:
             lines.append("assumptions:")
             lines.extend(f"  - {a}" for a in self.assumptions)
@@ -72,6 +77,8 @@ class TemplatePipeline:
         # Ambiguities found while reading the paper matter even when the build
         # succeeds, so they are carried through rather than discarded.
         result.diagnostics.extend(doc.diagnostics())
+        result.derivations.extend(doc.derivations())
+        result.assumptions.extend(doc.physics_assumptions())
         return result
 
     def run_from_parameters(self, values: Dict[str, float], output_path: str,

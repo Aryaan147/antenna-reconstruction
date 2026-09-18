@@ -6,6 +6,7 @@ assembled from them is right. Run it for every new template.
 """
 import os
 import sys
+import textwrap
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
@@ -18,7 +19,7 @@ OUT_DIR = os.path.join(os.path.dirname(__file__), "output")
 FIGURES = {
     "hexagonal_ring_antenna": (1, (0.145, 0.180, 0.430, 0.380)),
     "microstrip_patch_antenna": (1, (0.100, 0.240, 0.400, 0.490)),
-    "rectangular_patch_array": (1, (0.220, 0.655, 0.460, 0.850)),
+    "rectangular_patch_array": (1, (0.560, 0.055, 0.980, 0.260)),
     "square_patch_antenna": (0, (0.520, 0.575, 0.900, 0.820)),
     "synthetic_antenna": (0, (0.130, 0.400, 0.450, 0.620)),
 }
@@ -35,18 +36,19 @@ CASES = {
     ),
     "microstrip_patch_antenna": dict(
         template="rectangular_patch",
-        values={"W": 39.4, "L": 28.9, "SW": 76.8, "SL": 57.8},
+        values={"W": 39.4, "L": 28.9, "SW": 76.8, "SL": 57.8, "FW": 3.1},
         source="automatic, from prose",
-        note="UNVERIFIED; inset feed (9.25/23.7 mm) is only in the figure",
+        note=("feed line now built to the patch edge; how far it insets "
+              "(9.25 mm) appears only inside the figure, so it is reported"),
     ),
     "rectangular_patch_array": dict(
-        template="rectangular_patch",
-        values={"W": 38.3934, "L": 29.89},
-        source="automatic, from table headers",
-        note=("UNVERIFIED; this is the paper's Fig. 1 single element. No "
-              "substrate is stated, the inset feed is not modelled, and the "
-              "paper's actual 4x2 array is not built (spacing is given only "
-              "as lambda/2)"),
+        template="rectangular_patch_array",
+        values={"W": 38.3934, "L": 29.89, "NX": 4, "NY": 2,
+                "DX": 62.4568, "DY": 62.4568},
+        source="automatic; spacing DERIVED from 2.4 GHz",
+        note=("the 4x2 array, built from an element the table states and a "
+              "lambda/2 spacing the paper never prints as a number. No "
+              "substrate is stated; the corporate feed network is not modelled"),
     ),
     "square_patch_antenna": dict(
         template="trimmed_square_patch",
@@ -128,8 +130,9 @@ def render_one(name, out_path):
     ax2.set_title(f"Reconstructed  ({case['source']})", fontsize=11)
     ax2.set_facecolor("#ffffff")
 
-    fig.suptitle(f"{name}\n{case['note']}", fontsize=12)
-    fig.tight_layout()
+    note = "\n".join(textwrap.wrap(case["note"], width=95))
+    fig.suptitle(f"{name}\n{note}", fontsize=11)
+    fig.tight_layout(rect=(0, 0, 1, 0.94))
     fig.savefig(out_path, dpi=130)
     plt.close(fig)
     return out_path

@@ -23,8 +23,9 @@ EXPECTED = {
         "dimensions stated in prose; family offers no redundancy to check",
     ),
     "rectangular_patch_array": (
-        True, False, "rectangular_patch",
-        "dimensions in table column headers; no redundancy",
+        True, True, "rectangular_patch_array",
+        "element from table headers; 4x2 count and lambda/2 spacing derived "
+        "from the stated 2.4 GHz centre frequency",
     ),
     "square_patch_antenna": (
         False, False, None,
@@ -89,3 +90,19 @@ def test_prose_derived_dimensions_match_the_paper(pipeline, tmp_path):
     assert result.parameters["SL"] == 57.8
     assert result.parameters["W"] == 39.4
     assert result.parameters["L"] == 28.9
+
+
+@pytest.mark.skipif(
+    not os.path.exists(f"{PAPER_DIR}/rectangular_patch_array.pdf"),
+    reason="paper not available",
+)
+def test_array_spacing_is_derived_not_stated(pipeline, tmp_path):
+    """The paper never prints a spacing; it prints lambda/2 and 2.4 GHz."""
+    result = pipeline.run_from_pdf(
+        f"{PAPER_DIR}/rectangular_patch_array.pdf", str(tmp_path / "a.dxf")
+    )
+    assert result.parameters["NX"] == 4 and result.parameters["NY"] == 2
+    assert result.parameters["DX"] == pytest.approx(62.4568, abs=1e-3)
+    assert any("lambda0 = c / f" in d for d in result.derivations)
+    # A derived value must be labelled as such, not passed off as stated.
+    assert any("lambda" in a for a in result.assumptions)
