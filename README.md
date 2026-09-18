@@ -127,6 +127,10 @@ Run it for each new template: it is the only check that catches a wrong
 | `trimmed_square_patch` | `W2 L2 W3 L3` + optional `W1 L1` | square, and symmetric trim |
 | `horse_shoe_patch` | `L_S W L_P W_P L_g W_f L_f` | containment bounds only |
 
+The horse-shoe template can cut its slots from an outline traced out of the
+paper's figure (`use_figure_outline`, on by default). See **Figure-derived
+geometry** below - what that buys and what it costs.
+
 Curves are emitted as 180-segment polylines (chord error under ~0.02% of the
 radius), giving CAD and EM consumers one uniform representation.
 
@@ -151,6 +155,30 @@ A table must also declare a length unit. Defaulting to mm let a
 machine-learning results table - model names against resonant frequencies in
 GHz - be read as antenna dimensions.
 
+## Figure-derived geometry
+
+Some geometry exists only in a paper's figure. The horse-shoe paper states a
+size for every slot (`W_R`, `W_RI`, `D`, `L_SII`..`L_SIV`) and a position for
+none, so the U-slots, crenellations and ground cut-outs cannot be placed from
+the table alone.
+
+`tools/trace_figure_outline.py` recovers them by colour-segmenting the figure,
+inpainting the dimension arrows by nearest known colour (a window vote smears
+a slot narrower than the window - which is how the horse-shoe slots kept
+vanishing, since the arrows labelling them sit inside them), and polygonising
+the mask by unioning its row runs. Contour tracing plus `buffer(0)` was tried
+first and silently *fills open notches*, which loses exactly the feature of
+interest.
+
+The result is stored normalised to each shape's own bounding box, so it
+rescales onto whatever the table states. **Outer dimensions stay table-derived;
+internal features are figure-derived**, and every such build says so in its
+assumptions. The distinction matters: Fig. 1 is only about 10% faithful to
+Table 1 (its ground reads ~11.7 mm against a stated `L_g` of 13), so a traced
+slot width is an approximation and is traceable to pixels, not to a stated
+dimension. Setting `use_figure_outline=False` returns the determined skeleton
+with the slots reported instead.
+
 ## Layout
 
 ```text
@@ -166,6 +194,7 @@ src/antenna_reconstruction/
   derived/physics.py       quantities a paper implies but never prints
   binding/verifier.py      the propose-then-verify engine
   templates/               parametric antenna families (8 shapes)
+    figure_outlines/       outlines traced from paper figures (see above)
   template_pipeline.py     PDF -> DXF
 ```
 
@@ -202,6 +231,6 @@ hexagons being flat-top, the ring sitting on the feed — is recorded in
 python -m pytest tests -q
 ```
 
-148 tests. `tests/test_no_silent_success.py` pins the regression that motivated
+152 tests. `tests/test_no_silent_success.py` pins the regression that motivated
 this design: the pipeline used to return success with an empty DXF.
 `tests/test_papers_end_to_end.py` pins what each sample paper should produce.

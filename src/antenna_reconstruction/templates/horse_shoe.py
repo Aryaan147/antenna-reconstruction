@@ -15,7 +15,9 @@ the shaped ground cut-outs are reported rather than placed. The figure shows
 where they go, but reading positions off a figure that is not drawn to scale
 would be measuring pixels, which the stated dimensions outrank.
 """
-from typing import Dict, List
+import json
+import os
+from typing import Dict, List, Optional
 
 from ..binding.verifier import Relation
 from ..geometry.feeds import microstrip_line
@@ -25,11 +27,42 @@ from .base import Layer, Shape, Template, TemplateResult
 # Slot symbols: each gives an extent but never a location.
 SLOT_SYMBOLS = ("W_R", "W_RI", "D", "L_SII", "L_SIII", "L_SIV", "L_sII")
 
+OUTLINE_PATH = os.path.join(
+    os.path.dirname(__file__), "figure_outlines", "horse_shoe.json"
+)
+
+
+def load_figure_outline() -> Optional[dict]:
+    """The metal outlines traced from Fig. 1, or None if unavailable.
+
+    These are FIGURE-DERIVED. Coordinates are fractions of each shape's own
+    bounding box, so they rescale onto the stated outer dimensions - but the
+    internal feature sizes come from pixels, not from any stated dimension,
+    and the figure is only about 10% faithful to the table.
+    """
+    try:
+        with open(OUTLINE_PATH) as handle:
+            return json.load(handle)
+    except (OSError, ValueError):
+        return None
+
+
+def _place(outline: dict, x0: float, y0: float, width: float,
+           height: float) -> List[List]:
+    """Map a normalised outline onto a rectangle in millimetres."""
+    def ring(points):
+        return [(x0 + px * width, y0 + py * height) for px, py in points]
+    return [ring(outline["exterior"])] + [ring(h) for h in outline["holes"]]
+
 
 class HorseShoePatchTemplate(Template):
     name: str = "horse_shoe_patch"
     required: List[str] = ["L_S", "W", "L_P", "W_P", "L_g", "W_f", "L_f"]
     optional: List[str] = list(SLOT_SYMBOLS)
+    # Cut the slots using outlines traced from Fig. 1. Off by default would
+    # give the determined skeleton only; on, the shape matches the paper but
+    # its internal features are figure-derived rather than stated.
+    use_figure_outline: bool = True
 
     def relations(self) -> List[Relation]:
         # These are containment bounds, not redundancies: they catch a symbol
@@ -101,51 +134,84 @@ class HorseShoePatchTemplate(Template):
             "symbol states an offset"
         )
 
-        try:
+        outline = load_figure_outline() if self.use_figure_outline else None
+
+        if outline is not None:
+            # The traced gold covers patch and feed as one piece, from the
+            # board edge up to the patch top.
             result.shapes.append(Shape(
                 id="patch", layer=Layer.RADIATOR,
-                rings=[rectangle(cx - W_P / 2.0, patch_y,
-                                 cx + W_P / 2.0, patch_y + L_P)],
-                derivation=f"patch W_P={W_P} x L_P={L_P}, lower edge at y=L_f={L_f}",
+                rings=_place(outline["patch"], cx - W_P / 2.0, 0.0,
+                             W_P, L_f + L_P),
+                derivation=(
+                    "patch and feed outline TRACED FROM Fig. 1, rescaled to "
+                    f"W_P={W_P} x (L_f+L_P)={L_f + L_P}; slots and "
+                    "crenellations are figure-derived, not stated"
+                ),
             ))
-        except GeometryError as exc:
-            result.diagnostics.append(f"patch: {exc}")
-
-        try:
-            result.shapes.append(Shape(
-                id="feed", layer=Layer.FEED,
-                rings=[microstrip_line(cx, 0.0, L_f, W_f)],
-                derivation=f"feed W_f={W_f} wide, L_f={L_f} long, on the x-midline",
-            ))
-        except GeometryError as exc:
-            result.diagnostics.append(f"feed: {exc}")
-
-        try:
             result.shapes.append(Shape(
                 id="ground", layer=Layer.GROUND,
-                rings=[rectangle(0.0, 0.0, W, L_g)],
+                rings=_place(outline["ground"], 0.0, 0.0, W, L_g),
                 derivation=(
-                    f"partial ground, full width W={W}, L_g={L_g} up from the "
-                    "substrate edge, on the reverse side"
+                    "ground outline TRACED FROM Fig. 1, rescaled to "
+                    f"W={W} x L_g={L_g}; cut-outs are figure-derived"
                 ),
             ))
             result.assumptions.append(
-                "the partial ground spans the full substrate width and lies on "
-                "the reverse side (Fig. 1 overlays both faces)"
+                "SLOT GEOMETRY IS FIGURE-DERIVED: the U-slots, crenellations "
+                "and ground cut-outs are traced from Fig. 1 and rescaled onto "
+                "the stated outer dimensions. Their sizes come from pixels, "
+                "not from any stated dimension, and Fig. 1 is only about 10% "
+                "faithful to Table 1 (its ground reads ~11.7 mm against a "
+                "stated L_g of 13)"
             )
-        except GeometryError as exc:
-            result.diagnostics.append(f"ground: {exc}")
-
-        present = [s for s in SLOT_SYMBOLS if s in values]
-        if present:
             result.underdetermined.append(
-                "slot placement: " + ", ".join(present) + " each give a size but "
-                "no paper statement gives a position, so the U-slots, the "
-                "crenellated patch edge and the shaped ground cut-outs are not cut"
+                "slot dimensions: " + ", ".join(SLOT_SYMBOLS) + " are stated as "
+                "sizes but no statement places them, so the traced positions "
+                "could not be checked against them"
             )
-        result.underdetermined.append(
-            "crenellation count: the figure shows repeated notches along the "
-            "patch edge but no symbol states how many"
-        )
+        else:
+            try:
+                result.shapes.append(Shape(
+                    id="patch", layer=Layer.RADIATOR,
+                    rings=[rectangle(cx - W_P / 2.0, patch_y,
+                                     cx + W_P / 2.0, patch_y + L_P)],
+                    derivation=f"patch W_P={W_P} x L_P={L_P}, lower edge at y=L_f",
+                ))
+            except GeometryError as exc:
+                result.diagnostics.append(f"patch: {exc}")
+            try:
+                result.shapes.append(Shape(
+                    id="feed", layer=Layer.FEED,
+                    rings=[microstrip_line(cx, 0.0, L_f, W_f)],
+                    derivation=f"feed W_f={W_f} wide, L_f={L_f} long, on the x-midline",
+                ))
+            except GeometryError as exc:
+                result.diagnostics.append(f"feed: {exc}")
+            try:
+                result.shapes.append(Shape(
+                    id="ground", layer=Layer.GROUND,
+                    rings=[rectangle(0.0, 0.0, W, L_g)],
+                    derivation=f"partial ground, full width W={W}, L_g={L_g}",
+                ))
+            except GeometryError as exc:
+                result.diagnostics.append(f"ground: {exc}")
 
+            present = [s for s in SLOT_SYMBOLS if s in values]
+            if present:
+                result.underdetermined.append(
+                    "slot placement: " + ", ".join(present) + " each give a size "
+                    "but no paper statement gives a position, so the U-slots, "
+                    "the crenellated patch edge and the shaped ground cut-outs "
+                    "are not cut"
+                )
+            result.underdetermined.append(
+                "crenellation count: the figure shows repeated notches along "
+                "the patch edge but no symbol states how many"
+            )
+
+        result.assumptions.append(
+            "the partial ground spans the full substrate width and lies on the "
+            "reverse side (Fig. 1 overlays both faces)"
+        )
         return result
