@@ -125,6 +125,7 @@ Run it for each new template: it is the only check that catches a wrong
 | `triangular_patch` | `ST` + optional `HT` | `HT = ST*sqrt(3)/2` |
 | `rectangular_patch_array` | `W L NX NY DX DY` | spacing clears the element |
 | `trimmed_square_patch` | `W2 L2 W3 L3` + optional `W1 L1` | square, and symmetric trim |
+| `horse_shoe_patch` | `L_S W L_P W_P L_g W_f L_f` | containment bounds only |
 
 Curves are emitted as 180-segment polylines (chord error under ~0.02% of the
 radius), giving CAD and EM consumers one uniform representation.
@@ -164,7 +165,7 @@ src/antenna_reconstruction/
   geometry/feeds.py        microstrip lines and inset feeds
   derived/physics.py       quantities a paper implies but never prints
   binding/verifier.py      the propose-then-verify engine
-  templates/               parametric antenna families (7 shapes)
+  templates/               parametric antenna families (8 shapes)
   template_pipeline.py     PDF -> DXF
 ```
 
@@ -201,6 +202,6 @@ hexagons being flat-top, the ring sitting on the feed — is recorded in
 python -m pytest tests -q
 ```
 
-139 tests. `tests/test_no_silent_success.py` pins the regression that motivated
+148 tests. `tests/test_no_silent_success.py` pins the regression that motivated
 this design: the pipeline used to return success with an empty DXF.
 `tests/test_papers_end_to_end.py` pins what each sample paper should produce.
