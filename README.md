@@ -99,8 +99,12 @@ The measurements that settle these are checked against Table 1 in
 `tests/test_templates.py`. Compare for yourself:
 
 ```bash
-python examples/render_comparison.py
+python examples/render_all_comparisons.py
 ```
+
+That script renders every paper's own figure beside what the pipeline builds.
+Run it for each new template: it is the only check that catches a wrong
+*shape*, as opposed to wrongly bound *numbers*.
 
 ## Shape vocabulary
 
@@ -112,6 +116,7 @@ python examples/render_comparison.py
 | `annular_ring` | `RO RI` + optional `WR` | `WR = RO - RI` |
 | `triangular_patch` | `ST` + optional `HT` | `HT = ST*sqrt(3)/2` |
 | `rectangular_patch_array` | `W L NX NY DX DY` | spacing clears the element |
+| `trimmed_square_patch` | `W2 L2 W3 L3` + optional `W1 L1` | square, and symmetric trim |
 
 Curves are emitted as 180-segment polylines (chord error under ~0.02% of the
 radius), giving CAD and EM consumers one uniform representation.
@@ -131,7 +136,7 @@ src/antenna_reconstruction/
   cad_builder/             Component 3 - geometry -> DXF, layer-aware
   geometry/primitives.py   polygons, uniform insets, boolean difference
   binding/verifier.py      the propose-then-verify engine
-  templates/               parametric antenna families (6 shapes)
+  templates/               parametric antenna families (7 shapes)
   template_pipeline.py     PDF -> DXF
 ```
 
@@ -168,6 +173,6 @@ hexagons being flat-top, the ring sitting on the feed — is recorded in
 python -m pytest tests -q
 ```
 
-101 tests. `tests/test_no_silent_success.py` pins the regression that motivated
+105 tests. `tests/test_no_silent_success.py` pins the regression that motivated
 this design: the pipeline used to return success with an empty DXF.
 `tests/test_papers_end_to_end.py` pins what each sample paper should produce.

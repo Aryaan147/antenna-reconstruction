@@ -109,3 +109,43 @@ def test_missing_substrate_is_reported_for_every_family():
     ]:
         result = template.build(values)
         assert any("substrate" in u for u in result.underdetermined)
+
+
+def test_trimmed_square_confirms_square_and_symmetric_trim():
+    from antenna_reconstruction.templates import TrimmedSquarePatchTemplate
+    result = TrimmedSquarePatchTemplate().build(
+        {"W1": 45.0, "L1": 45.0, "W2": 30.0, "L2": 30.0, "W3": 25.0, "L3": 25.0}
+    )
+    assert result.verification.ok
+    patch = [s for s in result.shapes if s.id == "patch"][0]
+    assert len(patch.rings[0]) == 6  # four edges plus two chamfers
+    x0, y0, x1, y1 = polygon_bounds(patch.rings[0])
+    assert (x1 - x0) == pytest.approx(30.0)
+    assert (y1 - y0) == pytest.approx(30.0)
+    assert (x0 + x1) / 2 == pytest.approx(22.5)  # centred on the 45 mm substrate
+
+
+def test_trimmed_square_refutes_a_non_square_patch():
+    from antenna_reconstruction.templates import TrimmedSquarePatchTemplate
+    report = TrimmedSquarePatchTemplate().build(
+        {"W2": 30.0, "L2": 24.0, "W3": 25.0, "L3": 25.0}
+    ).verification
+    assert report.refuted
+
+
+def test_trimmed_square_rejects_an_oversized_chamfer():
+    from antenna_reconstruction.templates import TrimmedSquarePatchTemplate
+    result = TrimmedSquarePatchTemplate().build(
+        {"W2": 30.0, "L2": 30.0, "W3": 10.0, "L3": 10.0}
+    )
+    assert not result.shapes
+    assert any("chamfer" in d for d in result.diagnostics)
+
+
+def test_trimmed_square_rejects_an_untrimmed_patch():
+    from antenna_reconstruction.templates import TrimmedSquarePatchTemplate
+    result = TrimmedSquarePatchTemplate().build(
+        {"W2": 30.0, "L2": 30.0, "W3": 30.0, "L3": 30.0}
+    )
+    assert not result.shapes
+    assert any("not shorter" in d for d in result.diagnostics)

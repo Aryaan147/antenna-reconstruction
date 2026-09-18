@@ -5,7 +5,7 @@ from .hexagonal_ring import HexagonalRingTemplate
 from .rectangular_patch import RectangularPatchTemplate
 from .shapes import (
     AnnularRingTemplate, CircularPatchTemplate, PatchArrayTemplate,
-    TriangularPatchTemplate,
+    TriangularPatchTemplate, TrimmedSquarePatchTemplate,
 )
 
 TEMPLATES: Dict[str, Template] = {
@@ -17,6 +17,7 @@ TEMPLATES: Dict[str, Template] = {
         AnnularRingTemplate(),
         TriangularPatchTemplate(),
         PatchArrayTemplate(),
+        TrimmedSquarePatchTemplate(),
     )
 }
 
@@ -55,6 +56,6 @@ def rank_templates(values: Dict[str, float]) -> List[tuple]:
 __all__ = [
     "Layer", "Shape", "Template", "TemplateResult", "HexagonalRingTemplate",
     "RectangularPatchTemplate", "CircularPatchTemplate", "AnnularRingTemplate",
-    "TriangularPatchTemplate", "PatchArrayTemplate",
+    "TriangularPatchTemplate", "PatchArrayTemplate", "TrimmedSquarePatchTemplate",
     "TEMPLATES", "get_template", "rank_templates",
 ]

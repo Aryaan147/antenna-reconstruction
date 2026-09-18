@@ -225,3 +225,90 @@ class PatchArrayTemplate(Template):
                 except GeometryError as exc:
                     result.diagnostics.append(f"element_{ix}_{iy}: {exc}")
         return result
+
+
+class TrimmedSquarePatchTemplate(Template):
+    """Square patch with two opposite corners chamfered, for circular polarisation.
+
+    Symbols follow the convention of the square-patch paper's Fig. 1(a):
+
+      W2, L2   overall square width / height (equal - it is a square)
+      W3, L3   the shortened bottom / right edges left after trimming
+      W1, L1   substrate width / height
+
+    The chamfer is not stated directly; it is W2 - W3, and the family's two
+    relations (square, and symmetric trim) are what confirm that reading.
+    """
+    name: str = "trimmed_square_patch"
+    required: List[str] = ["W2", "L2", "W3", "L3"]
+    optional: List[str] = ["W1", "L1"]
+
+    def relations(self) -> List[Relation]:
+        return [
+            Relation(
+                name="patch_is_square", target="L2", requires=["W2"],
+                description="L2 = W2 (the untrimmed patch is square)",
+                predict=lambda v: v["W2"],
+            ),
+            Relation(
+                name="trim_is_symmetric", target="L3", requires=["W3"],
+                description="L3 = W3 (both trimmed edges are equal)",
+                predict=lambda v: v["W3"],
+            ),
+        ]
+
+    def build(self, values: Dict[str, float]) -> TemplateResult:
+        result = TemplateResult(template=self.name)
+        missing = self.missing_required(values)
+        if missing:
+            result.diagnostics.append(f"missing required symbols: {', '.join(missing)}")
+            result.underdetermined.append("entire_structure")
+            return result
+
+        from ..binding.verifier import verify
+        result.verification = verify(values, self.relations())
+
+        side, trimmed = values["W2"], values["W3"]
+        chamfer = side - trimmed
+        if chamfer <= 0:
+            result.diagnostics.append(
+                f"trimmed edge W3={trimmed} is not shorter than the side W2={side}; "
+                "the symbols cannot mean what this template assumes"
+            )
+            return result
+        if chamfer > side / 2:
+            result.diagnostics.append(
+                f"chamfer {chamfer} exceeds half the side {side}; the corners would "
+                "meet and the patch would not be a trimmed square"
+            )
+            return result
+
+        substrate = {"SW": values.get("W1"), "SL": values.get("L1")}
+        if substrate["SW"] is not None and substrate["SL"] is not None:
+            cx, cy = _substrate(
+                {"SW": substrate["SW"], "SL": substrate["SL"]}, result
+            )
+        else:
+            cx, cy = _substrate({}, result)
+
+        x0, y0 = cx - side / 2.0, cy - side / 2.0
+        c = chamfer
+        # Counter-clockwise from the bottom-left corner. The chamfers sit at the
+        # top-left and bottom-right, as drawn in the paper's figure.
+        ring = [
+            (x0, y0), (x0 + side - c, y0), (x0 + side, y0 + c),
+            (x0 + side, y0 + side), (x0 + c, y0 + side), (x0, y0 + side - c),
+        ]
+        result.assumptions.append(
+            "the chamfers are at the top-left and bottom-right corners (Fig. 1a); "
+            "the opposite pairing would be an equally valid circular polarisation "
+            "design and only the figure distinguishes them"
+        )
+        result.shapes.append(Shape(
+            id="patch", layer=Layer.RADIATOR, rings=[ring],
+            derivation=(
+                f"square side W2={side}, corners trimmed by {c} "
+                f"(= W2 - W3) at two opposite corners"
+            ),
+        ))
+        return result
