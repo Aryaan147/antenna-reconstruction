@@ -86,12 +86,38 @@ class SympySolver:
         
         sym_list = list(self.symbols.values())
         if not sym_list:
+            # An empty system is NOT a solved system. Reporting SOLVED here would
+            # let the pipeline emit an empty DXF while claiming success, which
+            # violates the "no silent guessing / report what is missing" rule.
+            self.diagnostics.append(Diagnostic(
+                type="NO_GEOMETRY_EXTRACTED",
+                severity="error",
+                message=(
+                    "No solvable geometry was extracted from the input. "
+                    f"IR contained {len(self.ir.entities)} entities, "
+                    f"{len(self.ir.parameters)} parameters, "
+                    f"{len(self.ir.constraints)} constraints."
+                )
+            ))
             return ResolvedGeometry(
-                status=SolveStatus.SOLVED,
+                status=SolveStatus.INVALID_INPUT,
                 coordinate_system=self.ir.coordinate_system,
                 diagnostics=self.diagnostics
             )
-            
+
+        if not self.equations:
+            self.diagnostics.append(Diagnostic(
+                type="UNDERDETERMINED_SYSTEM",
+                severity="error",
+                message="Entities were found but no dimensions or relationships constrain them."
+            ))
+            return ResolvedGeometry(
+                status=SolveStatus.UNDERDETERMINED,
+                coordinate_system=self.ir.coordinate_system,
+                diagnostics=self.diagnostics
+            )
+
+
         try:
             solution = sp.linsolve(self.equations, sym_list)
         except Exception as e:

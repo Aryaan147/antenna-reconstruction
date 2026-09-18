@@ -2,44 +2,28 @@ A Synthetic Multi-Band Antenna Design for Testing
 Abstract - This paper presents a synthetic antenna design created for validation of automated figure
 extraction pipelines. The antenna operates at 2.4 GHz and 5.8 GHz with satisfactory return loss. Results are
 shown in Fig. 1 through Fig. 3.
-I. INTRODUCTION Antenna design is a critical aspect of
-modern wireless communication systems. The proposed
-antenna in this work uses a rectangular patch on FR-4
-substrate. The geometry of the antenna is shown in Figure 1.
-The substrate has a dielectric constant of 4.4 and thickness
+I. INTRODUCTION Antenna design is a critical aspect of II. ANTENNA DESIGN The proposed design employs a
+modern wireless communication systems. The proposed coplanar waveguide feed for improved impedance matching.
+antenna in this work uses a rectangular patch on FR-4 The feed dimensions were optimized to achieve a VSWR
+substrate. The geometry of the antenna is shown in Figure 1. below 2 across both operating bands. Table I summarizes the
+The substrate has a dielectric constant of 4.4 and thickness final dimensions of the antenna prototype.
 of 1.6mm. Optimizations were performed using HFSS to
 achieve dual-band operation.
-Fig. 1. Geometry of the proposed dual-band rectangular patch
+Fig. 1. Geometry of the proposed dual-band rectangular patch Fig. 2. Simulated and measured S11 parameters of the antenna.
 antenna.
-The antenna was fabricated and measured using a vector
-network analyzer. The simulated and measured S11
-parameters are compared in Fig. 2 and show good
-agreement. The radiation patterns shown in Fig. 3 confirm
-omnidirectional behavior in the H-plane.
-II. ANTENNA DESIGN The proposed design employs a
-coplanar waveguide feed for improved impedance matching.
-The feed dimensions were optimized to achieve a VSWR
-below 2 across both operating bands. Table I summarizes the
-final dimensions of the antenna prototype.
-Fig. 2. Simulated and measured S11 parameters of the antenna.
-III. RESULTS AND DISCUSSION The measured return loss
-at 2.4 GHz is -18.5 dB and at 5.8 GHz is -22.3 dB, which are
-well below the -10 dB threshold. The bandwidth at each
-resonance exceeds 100 MHz. The gain was measured to be
-4.2 dBi at 2.4 GHz.
+The antenna was fabricated and measured using a vector III. RESULTS AND DISCUSSION The measured return loss
+network analyzer. The simulated and measured S11 at 2.4 GHz is -18.5 dB and at 5.8 GHz is -22.3 dB, which are
+parameters are compared in Fig. 2 and show good well below the -10 dB threshold. The bandwidth at each
+agreement. The radiation patterns shown in Fig. 3 confirm resonance exceeds 100 MHz. The gain was measured to be
+omnidirectional behavior in the H-plane. 4.2 dBi at 2.4 GHz.
 The current distribution at 2.4 GHz shows concentration
 along the patch edges, confirming the fundamental TM10
 mode excitation. Further parametric studies on the feed
 position are discussed next.
 Fig. 3. Measured radiation patterns at 2.4 GHz and 5.8 GHz.
-IV. CONCLUSION A dual-band rectangular patch antenna
-has been designed, fabricated, and tested. The antenna
-operates at 2.4 GHz and 5.8 GHz with return loss better than
--15 dB at both bands as demonstrated in Fig. 2. The radiation
-patterns in Figure 3 show stable omnidirectional coverage.
+IV. CONCLUSION A dual-band rectangular patch antenna REFERENCES [1] C. Balanis, Antenna Theory, 4th ed.
+has been designed, fabricated, and tested. The antenna Wiley, 2016. [2] R. Garg et al., Microstrip Antenna Design
+operates at 2.4 GHz and 5.8 GHz with return loss better than Handbook, Artech, 2001. [3] K. Wong, Compact and
+-15 dB at both bands as demonstrated in Fig. 2. The radiation Broadband Microstrip Antennas. Fig. 5 in Ch. 3 provides a
+patterns in Figure 3 show stable omnidirectional coverage. useful reference geometry for similar designs.
 Future work will explore MIMO configurations.
-REFERENCES [1] C. Balanis, Antenna Theory, 4th ed.
-Wiley, 2016. [2] R. Garg et al., Microstrip Antenna Design
-Handbook, Artech, 2001. [3] K. Wong, Compact and
-Broadband Microstrip Antennas. Fig. 5 in Ch. 3 provides a
-useful reference geometry for similar designs.

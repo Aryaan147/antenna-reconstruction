@@ -1,251 +1,202 @@
-This full-text paper was peer-reviewed and accepted to be presented at the IEEE WiSPNET 2016 conference.
-Square patch antenna with circular polarization for 
-WLAN application 
-Shaik subhani1, Ravi Prakash Dwivedi2 
-School of Electronics Engineering 
-VIT University, Chennai, India 
-Shaik.subhani2014@vit.ac.in1, raviprakash.dwivedi@vit.ac.in2 
- 
-Abstract— A compact square patch antenna is studied with 
-different feeding techniques. The proposed antenna operates at 
-band of 2.4 GHz for the application of WLAN. Simulation results 
-evaluated in term of return loss, bandwidth, radiation pattern, 
-directivity, gain and axial ratio. Gain of the proposed antennas is 
-3.28 dB for trimmed square patch and 2.4 dB for inset feed 
-antenna and 2.8 dB for centre feed antenna. 
- 
-Keywords— Square patch antenna, WLAN, circular polarization. 
-I. I NTRODUCTION 
-Development of modern wireless system requires precision 
-system and antenna with better performance. Circular 
-polarization antennas are one such a kind to their applications 
-in satellite communications, Navigation systems, and mobile 
-communications, WLAN, Wi-MAX, WPAN and RFID [1]. 
-The advantages of circular polarization over other 
-polarizations are immunity to multipath fading, resistant to 
-Faraday rotation effect and antennas are not restricted in its 
-orientation while transmission and reception. Design of 
-antennas for wireless communication systems should have 
-low cost, compact design and better performance such as wide 
-bandwidth and high gain.  
-We implemented antennas using transmission line model 
-approach because of its advantages as high performance with 
-less complexity [1]. It gives more information about 
-geometric design of antenna. In conventional antenna design 
-we have more freedom due to distributed nature of the antenna 
-[9]. It is just like a RLC circuit we need to optimize according 
-to the requirement so that it is easy of all and simple to design 
-in this method of analysis [10]. Different feed techniques are 
-followed so that we can evaluate a better model because each 
-technique has its own advantage over other feed techniques 
-like strip, probe etc. As it was designed in transmission line 
-model we have advantages in impedance matching.  
-The proposed antenna is designed to be operated 
-in the 2.4 GHz (2.25 GHz – 2.57 GHz for wireless 
-applications. The designed antennas are passive 
-structure operates at its half wavelength mode [2]. 
-With reference to RFIDs, Gain and Circular 
-Polarization (CP) are very important parameters. 
-The patch elements of most commonly used shapes such as 
-square, rectangular and circular   are   radiating   primarily in 
-linear polarization [9]. To modify polarization of the patch we 
-use conventional feed or slight changes in the patch it results 
-circular or elliptical polarization. In conventional feed method 
-there are no modifications in the patch but other method 
-require changes in the patch and might be in the feed 
-arrangements. Recently multi band antenna has greatest 
-advantage we can design multiband antennas using different 
-methods of implementation like slot loading, Fractal, multi 
-stacking and modified patches. Whatever the method we 
-choose to design multiband antenna polarization of the bands 
-must be same so that it can be used in real time. 
-Gain is one of the defining factors in determining the 
-reading range of the RFID while CP is required so that the 
-signal can be captured effectively and successfully. Therefore, 
-it is a need to have an antenna that has a high gain and the 
-antenna possesses a CP instead of a linear.  
-II. ANTENNA  TOPOLOGY AND OPERATION 
-PRINCIPLE 
-The proposed antennas are as follows Fig.1. gives 
-topology and geometry of the square patch antenna. 
-Antenna was designed on a 1.6-mm FR4 substrate 
-with dielectric constant € r=4.4 and thickness of 0.1-
-mm. 
- 
- 
-(a)Trimmed square 
-1018978-1-4673-9338-6/16/$31.00 c©2016 IEEE
-Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 08,2026 at 20:37:35 UTC from IEEE Xplore.  Restrictions apply. 
-This full-text paper was peer-reviewed and accepted to be presented at the IEEE WiSPNET 2016 conference.
- 
-(b) Square with inset feed 
- 
-(c) Square with center feed                                                                                 
-     Fig.1. Topology of circularly polarized antennas 
- 
- Related to our feed position it resonate at half wave length 
-or quarter wave length or full wave length mode. How-ever 
-we have different methods for analysis in which transmission 
-line model is earliest and easy than other models. It gives very 
-good physical insight meaning to designer rather than the 
-complex models of advanced like cavity and coupling models. 
-Taking node point that is port 1 and verifying impedance the 
-oscillation sustained only when Z ant and Z in must satisfy 
-these conditions [9-10]. 
-   Z ant = R ant +j X ant                               (1)  
-   Z in  = R in + j X in.                          (2) 
-                             R in + R ant = 0                               (3) 
-                             X in + X ant = 0                                      (4)   
-Fig.1 (a) shows antenna structure and the 
-geometry of a trimmed square patch. The antenna is 
-designed on an FR4 substrate (relative dielectric 
-constant = 4.4, thickness = 1.6 mm, loss tan-gent = 
-0.025). The overall dimension of the antenna is 45 
-× 45× 1.6 mm3.  
-The dimensions of the antenna are: L 1 = 45 mm, L 2 = 30 
-mm, L3 = 25 mm, W1 = L1, W2 = L2 , W3 = L3. 
-Fig.1 (b) shows antenna structure and the geometry of an 
-inset feed square patch. The antenna is designed on an FR4 
-substrate (relative dielectric constant = 4.4, thickness = 1.6 
-mm, loss tan-gent = 0.025). The overall dimension of the 
-antenna is 45 × 40× 1.6 mm3.  
-The dimensions of the antenna are: L1 = 45 mm, L2 = 30 
-mm, L3 = 17 mm, L 4= 14 mm, L 5= 7 mm, W1 = 40 mm, W2 
-= 30 mm, W3 = 3 mm, W4= 1.2 mm, G1= 0.5 mm. 
-Fig.1 (c) shows antenna structure and the geometry of a 
-center feed square patch. The antenna is designed on an FR4 
-substrate (relative dielectric constant = 4.4, thickness = 1.6 
-mm, loss tan-gent = 0.025). The overall dimension of the 
-antenna is 67 × 60× 1.6 mm3.  
-The dimensions of the antenna are: L 1 = 67 mm, 
-L2 = 30 mm, L 3 = 17 mm, L 4= 14 mm, W 1 = 60 mm, 
-W2 = 30 mm, W3 = 3 mm, W4= 1.2 mm. 
-III. SIMULATION RESULTS 
-The proposed antennas are simulated using the model 
-simulator in HFSS. Fig.2. gives the flow analysis in HFSS. 
-First we design the patch with proper feed and assigning the 
-necessary boundary conditions, excitation, sweep assignment 
-to ready with simulation.  
+Thisfull-textpaperwaspeer-reviewedandacceptedtobepresentedattheIEEEWiSPNET2016conference.
+Square patch antenna with circular polarization for
+WLAN application
+Shaik subhani1, Ravi Prakash Dwivedi2
+School of Electronics Engineering
+VIT University, Chennai, India
+Shaik.subhani2014@vit.ac.in1, raviprakash.dwivedi@vit.ac.in2
+Abstract— A compact square patch antenna is studied with linear polarization [9]. To modify polarizationof the patch we
+different feeding techniques. The proposed antenna operates at use conventional feed or slight changes in the patch it results
+band of 2.4 GHz for the application of WLAN. Simulation results circular or elliptical polarization. In conventional feed method
+evaluated in term of return loss, bandwidth, radiation pattern,
+there are no modifications in the patch but other method
+directivity, gain and axial ratio. Gain of the proposed antennas is
+require changes in the patch and might be in the feed
+3.28 dB for trimmed square patch and 2.4 dB for inset feed
+arrangements. Recently multi band antenna has greatest
+antenna and 2.8 dB for centre feed antenna.
+advantage we can design multiband antennas using different
+methods of implementation like slot loading, Fractal, multi
+Keywords— Square patch antenna, WLAN, circular polarization.
+stacking and modified patches. Whatever the method we
+choose to design multiband antenna polarization of the bands
+I. INTRODUCTION
+must be same so that it can beused in real time.
+Development of modern wireless system requires precision Gain is one of the defining factors in determining the
+system and antenna with better performance. Circular reading range of the RFID while CP is required so that the
+polarization antennas are one such a kind to their applications signal can be captured effectively and successfully. Therefore,
+in satellite communications, Navigation systems, and mobile it is a need to have an antenna that has a high gain and the
+communications, WLAN, Wi-MAX, WPAN and RFID [1]. antenna possesses a CP instead of a linear.
+The advantages of circular polarization over other
+polarizations are immunity to multipath fading, resistant to II. ANTENNA TOPOLOGY AND OPERATION
+Faraday rotation effect and antennas are not restricted in its PRINCIPLE
+orientation while transmission and reception. Design of
+The proposed antennas are as follows Fig.1. gives
+antennas for wireless communication systems should have
+topology and geometry of the square patch antenna.
+low cost, compact design and better performance such as wide
+bandwidth and high gain. Antenna was designed on a 1.6-mm FR4 substrate
+We implemented antennas using transmission line model with dielectric constant €=4.4 and thickness of 0.1-
+r
+approach because of its advantages as high performance with mm.
+less complexity [1]. It gives more information about
+geometric design of antenna. In conventional antenna design
+we have more freedom due to distributed nature of the antenna
+[9]. It is just like a RLC circuit we need to optimize according
+to the requirement so that it is easy of all and simple to design
+in this method of analysis [10]. Different feed techniques are
+followed so that we can evaluate a better model because each
+technique has its own advantage over other feed techniques
+like strip, probe etc. As it was designed in transmission line
+model we have advantages in impedance matching.
+The proposed antenna is designed to be operated
+in the 2.4 GHz (2.25 GHz – 2.57 GHz for wireless
+applications. The designed antennas are passive
+structure operates at its half wavelength mode [2].
+With reference to RFIDs, Gain and Circular
+Polarization (CP) are very important parameters.
+The patch elements of most commonly used shapes such as
+square, rectangular and circular are radiating primarily in (a)Trimmed square
+978-1-4673-9338-6/16/$31.00 c2016IEEE 1018
+©
+Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 08,2026 at 20:37:35 UTC from IEEE Xplore. Restrictions apply.
+Thisfull-textpaperwaspeer-reviewedandacceptedtobepresentedattheIEEEWiSPNET2016conference.
+designed on an FR4 substrate (relative dielectric
+constant = 4.4, thickness = 1.6 mm, loss tan-gent =
+0.025). The overall dimension of the antenna is 45
+× 45× 1.6 mm3.
+The dimensions of the antenna are: L1 = 45 mm, L2 = 30
+mm, L3 = 25 mm, W1 = L1, W2 = L2 , W3 = L3.
+Fig.1 (b) shows antenna structure and the geometry of an
+inset feed square patch. The antenna is designed on an FR4
+substrate (relative dielectric constant = 4.4, thickness = 1.6
+mm, loss tan-gent = 0.025). The overall dimension of the
+antenna is 45 × 40× 1.6 mm3.
+The dimensions of the antenna are: L1 = 45 mm, L2 = 30
+mm, L3 = 17 mm, L = 14 mm, L = 7 mm, W1 = 40 mm, W2
+4 5
+= 30 mm, W3 = 3 mm, W = 1.2 mm, G = 0.5 mm.
+4 1
+Fig.1 (c) shows antenna structure and the geometry of a
+center feed square patch. The antenna is designed on an FR4
+substrate (relative dielectric constant = 4.4, thickness = 1.6
+mm, loss tan-gent = 0.025). The overall dimension of the
+antenna is 67 × 60× 1.6 mm3.
+(b) Square with inset feed
+The dimensions of the antenna are: L = 67 mm,
+1
+L = 30 mm, L = 17 mm, L = 14 mm, W = 60 mm,
+2 3 4 1
+W = 30 mm, W = 3 mm, W = 1.2 mm.
+2 3 4
+III. SIMULATION RESULTS
+The proposed antennas are simulated using the model
+simulator in HFSS. Fig.2. gives the flow analysis in HFSS.
+First we design the patch with proper feed and assigning the
+necessary boundary conditions, excitation, sweep assignment
+to ready with simulation.
 After simulation completed we plot the results of S-
-parameter of two port network frequency vs. return loss. From 
-the results obtained by S-parameter we plot other necessary 
-antenna parameter. 
- 
-Fig. 2 Simulation flow using HFSS. 
+parameter of two port network frequency vs. return loss. From
+the results obtained by S-parameter we plot other necessary
+antenna parameter.
+(c) Square with center feed
+Fig.1. Topology of circularly polarized antennas
+Related to our feed position it resonate at half wave length
+or quarter wave length or full wave length mode. How-ever
+we have different methods for analysis in which transmission
+line model is earliest and easy than other models. It gives very
+good physical insight meaning to designer rather than the
+complex models of advanced like cavity and coupling models.
+Taking node point that is port 1 and verifying impedance the
+oscillation sustained only when Z and Z must satisfy
+ant in
+these conditions [9-10].
+Z = R +j X (1)
+ant ant ant Fig. 2 Simulation flowusing HFSS.
+Z = R + j X (2)
+in in in.
 Fig.3. (a) and (b) shows the simulated results of S-
+R + R = 0 (3)
+in ant
 parameter, axial ratio plot with respect to frequency. S-
-parameter result states that the proposed antenna resonate at 
-what frequency with a return loss and bandwidth. Axial ratio 
-gives the information about the polarization whether is it a 
+X + X = 0 (4)
+in ant parameter result states that the proposed antenna resonate at
+Fig.1 (a) shows antenna structure and the
+what frequency with a return loss and bandwidth. Axial ratio
+geometry of a trimmed square patch. The antenna is gives the information about the polarization whether is it a
 1019
-Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 08,2026 at 20:37:35 UTC from IEEE Xplore.  Restrictions apply. 
-This full-text paper was peer-reviewed and accepted to be presented at the IEEE WiSPNET 2016 conference.
-circular or elliptical polarization. For elliptical polarization 
-axial ratio should be in the range of 0 to 3dB otherwise it is 
-elliptical polarization. 
- 
- 
-Fig. 3 (a) S-parameters of antenna frequency vs. return loss
-  
-Fig. 3 (a) shows the proposed antenna resonate at 
-2.4 GHz with a return loss of -19.3dB. 
- 
- 
-Fig. 3 (b) Axial ratio with respect to frequency 
- 
-Fig.3. (b) plotted here gives the Axial ratio at  
-resonating frequency 2.4 GHz are less than 3 this 
-shows that the oscillations produced by the antenna 
-under limitations to form circular polarization.It is 
-necessary to verify with specified standards of 
-IEEE to validate the design. 
- 
- 
-Fig. 4 (a) Radiation pattern at 2.45GHz 
-From the Fig.4. (a) we analyse the performance of the 
-trimmed square antenna from its results gain, directivity and 
-radiated power along the z direction are 3.28 dB, 6.1 dB and 
-20 dB respectively when , φ = 0°, 90° and  Ө = 0°-360°. 
-.         
-  
-Fig. 4 (b) Radiation pattern at 2.45GHz for inset feed 
- 
-From Fig.4 (b) we analyse the performance of the inset feed 
-antenna from its results gain, directivity and radiated power 
-along the z direction are 2.48 dB, 5.8 dB and 17 dB 
-respectively when , φ = 0°, 90° and  Ө = 0°-360°. 
- 
- 
-Fig. 4 (c) Radiation Pattern at 2.45GHz of centre feed 
- 
-From the Fig.4 (c) we analyse the performance of the centre 
-feed antenna from its results gain, directivity and radiated 
-power along the z direction are 2.8 dB, 6.7 dB and 19.7 dB 
-respectively when , φ = 0°, 90° and  Ө = 0°- 360°. 
- 
-TABLE I COMPARISONS OF ANTENNA PARAMETERS
-              Antenna 
- 
-Parameters 
-Trimmed 
-square 
-Right-hand  
-edge feed 
-Right-hand 
-inset feed 
-Return loss in dB -18.9 -19.6 -19 
-Bandwidth in 
-MHz 
- 170 250  146 
-Gain in dB  3.28  2.88  2.48 
-Axial ratio in dB  1.19  2.0  2.1 
-Size in mm3 45x45x1.6 67x60x1.6 45x40x1.6 
+Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 08,2026 at 20:37:35 UTC from IEEE Xplore. Restrictions apply.
+Thisfull-textpaperwaspeer-reviewedandacceptedtobepresentedattheIEEEWiSPNET2016conference.
+circular or elliptical polarization. For elliptical polarization From the Fig.4. (a) we analyse the performance of the
+axial ratio should be in the range of 0 to 3dB otherwise it is trimmed square antenna from its results gain, directivity and
+elliptical polarization. radiated power along the z direction are 3.28 dB, 6.1 dB and
+20 dB respectively when , φ = 0°, 90° and Ө = 0°-360°.
+Fig.3(a)S-parametersofantennafrequencyvs.returnloss
+.
+Fig. 3 (a) shows the proposed antenna resonate at Fig. 4 (b) Radiation pattern at 2.45GHz for inset feed
+2.4 GHz with a return loss of -19.3dB. From Fig.4 (b) we analyse the performance of the inset feed
+antenna from its results gain, directivity and radiated power
+along the z direction are 2.48 dB, 5.8 dB and 17 dB
+respectively when , φ = 0°, 90° and Ө = 0°-360°.
+Fig. 3 (b) Axial ratio with respect to frequency
+Fig.3. (b) plotted here gives the Axial ratio at
+resonating frequency 2.4 GHz are less than 3 this
+shows that the oscillations produced by the antenna
+Fig. 4 (c) Radiation Pattern at 2.45GHz of centre feed
+under limitations to form circular polarization.It is
+necessary to verify with specified standards of From the Fig.4 (c) we analyse the performance of the centre
+IEEE to validate the design. feed antenna from its results gain, directivity and radiated
+power along the z direction are 2.8 dB, 6.7 dB and 19.7 dB
+respectively when , φ = 0°, 90° and Ө = 0°- 360°.
+TABLEICOMPARISONSOFANTENNAPARAMETERS
+Antenna Trimmed Right-hand Right-hand
+square edge feed inset feed
+Parameters
+Return loss in dB -18.9 -19.6 -19
+Bandwidth in 170 250 146
+MHz
+Gain in dB 3.28 2.88 2.48
+Axial ratio in dB 1.19 2.0 2.1
+Size in mm3 45x45x1.6 67x60x1.6 45x40x1.6
+Fig. 4 (a) Radiation pattern at 2.45GHz
 1020
-Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 08,2026 at 20:37:35 UTC from IEEE Xplore.  Restrictions apply. 
-This full-text paper was peer-reviewed and accepted to be presented at the IEEE WiSPNET 2016 conference.
-  
-IV. CONCLUSION 
-The proposed antenna is valid for wireless communication 
-systems and suitable candidate for other microwave 
-applications. Proposed designs resonate at 2.4GHz frequency 
-which has applications of WLAN. From comparison table.1 
-we can conclude that for gain and compact size trimmed 
-square gives better results 3.28 dB gain with size 45 × 45× 1.6 
-mm3.  For the gain and bandwidth centre feed antenna gives 
-better results 2.8 dB, 250 MHz respectively. Trimmed square 
-patch and other antennas can be further enhanced using wide 
-band technique and can be used with integrating active 
-components.                                  
-REFERENCES 
-[1] Bhushan Bhimrao Dhengale, Deepak C. Karia “A high Gain 2-Element 
-Microstrip Array Antenna with Circular Polarization for RFID 
-Applications” IEEE International Conference on Advances in 
-Computing, Communications and Informatics (ICACCI) 2015. 
-[2] Nagendra Kushwaha, Raj Kumar   “ Compact  co-planar   waveguide-
-fed Wide band circular polarized antenna for navigation and wireless  
-applications” IET Microwaves, Antennas & Propagation 2014. 
-[3] Cheng-Hsun Wu and Tzyh-Ghuang Ma “Miniaturized  Self  Oscillating 
-Active Integrated Antenna with Quasi-Isotropic Radiation “ IEEE 
-Transactions on antennas and Propagation, vol. 62, no. 2, February 
-2014.. 
-[4] Zhe Chen, Wei Hong, Ji Xin Chen, Jianyi Zhou, Lin Sheng Li “Low 
-phase noise oscillator utilizing high-Q active resonator based on 
-substrate Integrated waveguide technique “IET Microwaves, Antennas 
-& Propagation doi: 10.1049/iet-map.2013.0380. 
-[5] J.-C. Liu, C.-S. Cheng, H.-C. Chen and P.-C. Chen  “Active integration 
+Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 08,2026 at 20:37:35 UTC from IEEE Xplore. Restrictions apply.
+Thisfull-textpaperwaspeer-reviewedandacceptedtobepresentedattheIEEEWiSPNET2016conference.
+[2] Nagendra Kushwaha, Raj Kumar “ Compact co-planar waveguide-
+fed Wide band circular polarized antenna for navigation and wireless
+applications” IET Microwaves, Antennas & Propagation 2014.
+IV. CONCLUSION
+[3] Cheng-Hsun Wu and Tzyh-Ghuang Ma “Miniaturized Self Oscillating
+The proposed antenna is valid for wireless communication Active Integrated Antenna with Quasi-Isotropic Radiation “ IEEE
+Transactions on antennas and Propagation, vol. 62, no. 2, February
+systems and suitable candidate for other microwave
+2014..
+applications. Proposed designs resonate at 2.4GHz frequency
+[4] Zhe Chen, Wei Hong, Ji Xin Chen, Jianyi Zhou, Lin Sheng Li “Low
+which has applications of WLAN. From comparison table.1 phase noise oscillator utilizing high-Q active resonator based on
+we can conclude that for gain and compact size trimmed substrate Integrated waveguide technique “IET Microwaves, Antennas
+& Propagation doi: 10.1049/iet-map.2013.0380.
+square gives better results 3.28 dB gain with size 45 × 45× 1.6
+[5] J.-C. Liu, C.-S. Cheng, H.-C. Chen and P.-C. Chen “Active integration
+mm3. For the gain and bandwidth centre feed antenna gives
 ring antenna/phase shifter for direct conversions “IEE Proc.-
-Microwave Antennas Propagation.Vol.151, No.4, August 2004.   
-[6] Binod Kumar Kanaujia and Babau R. Vishvakarma   “Analysis of 
-Gunn Integrated Angular Ring Microstrip Antenna “IEEE transactions 
-on Antennas and Propagation, vol. 52,no. 1, January 2004. 
-[7] Cheng-Hsun Wu and Tzyh-Ghuang Ma,” Miniaturized Self Oscillating 
-Active   Integrated   Antenna   with   Quasi - Isotropic Radiation,” 
-IEEE transactions on Antennas and Propagation, vol. 62, no 2, 
-February 2014. 
-[8] Microwave_Engineering_David_M_Pozar_4ed_Wiley_2012. 
-[9] Antenna Theory Analysis and Design Constantine A_Balanis. 
-[10] Mouhouche_Faiza, “Analysis of small micro-strip antenna for mobile 
-Communications”, Hand book for micro-strip antenna September.2011 
- 
+better results 2.8 dB, 250 MHz respectively. Trimmed square Microwave Antennas Propagation.Vol.151, No.4, August 2004.
+patch and other antennas can be further enhanced using wide [6] Binod Kumar Kanaujia and Babau R. Vishvakarma “Analysis of
+Gunn Integrated Angular Ring Microstrip Antenna “IEEE transactions
+band technique and can be used with integrating active
+on Antennas and Propagation, vol. 52,no. 1, January 2004.
+components.
+[7] Cheng-Hsun Wu and Tzyh-Ghuang Ma,” Miniaturized Self Oscillating
+Active Integrated Antenna with Quasi - Isotropic Radiation,”
+REFERENCES IEEE transactions on Antennas and Propagation, vol. 62, no 2,
+February 2014.
+[1] Bhushan Bhimrao Dhengale, Deepak C. Karia “A high Gain 2-Element
+[8] Microwave_Engineering_David_M_Pozar_4ed_Wiley_2012.
+Microstrip Array Antenna with Circular Polarization for RFID
+[9] Antenna Theory Analysis and Design Constantine A_Balanis.
+Applications” IEEE International Conference on Advances in
+[10] Mouhouche_Faiza, “Analysis of small micro-strip antenna for mobile
+Computing, Communications and Informatics (ICACCI) 2015.
+Communications”, Hand book for micro-strip antenna September.2011
 1021
-Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 08,2026 at 20:37:35 UTC from IEEE Xplore.  Restrictions apply. 
+Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 08,2026 at 20:37:35 UTC from IEEE Xplore. Restrictions apply.

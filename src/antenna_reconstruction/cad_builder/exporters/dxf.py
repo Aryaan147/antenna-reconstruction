@@ -29,6 +29,17 @@ class DXFExporter:
                 # lwpolyline can take a list of (x,y) points.
                 # close=True makes it a closed polygon.
                 msp.add_lwpolyline(points, close=True, dxfattribs={'layer': rect.layer})
+
+            for poly in model.polygons:
+                if poly.layer not in doc.layers:
+                    doc.layers.add(name=poly.layer)
+                for ring in poly.rings:
+                    if len(ring) < 3:
+                        continue
+                    msp.add_lwpolyline(
+                        [(x, y) for x, y in ring], close=True,
+                        dxfattribs={'layer': poly.layer},
+                    )
                 
             doc.saveas(filepath)
             return True

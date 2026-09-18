@@ -1,5 +1,8 @@
 from antenna_reconstruction.coordinate_engine.models import ResolvedGeometry, SolveStatus
-from .models import Point, LineSegment, Rectangle, CADModel, BuildStatus, BuildResult
+from ..templates.base import TemplateResult
+from .models import (
+    Point, LineSegment, Rectangle, PolygonShape, CADModel, BuildStatus, BuildResult,
+)
 
 class GeometryBuilder:
     def build(self, resolved_geom: ResolvedGeometry) -> BuildResult:
@@ -41,9 +44,52 @@ class GeometryBuilder:
                 )
                 
                 cad_model.rectangles.append(rect)
-                
+
+        if cad_model.is_empty():
+            diagnostics.append(
+                "Resolved geometry contained no buildable entities; refusing to "
+                "emit an empty model."
+            )
+            return BuildResult(
+                status=BuildStatus.INVALID_RESOLVED_GEOMETRY,
+                diagnostics=diagnostics
+            )
+
         return BuildResult(
             status=BuildStatus.BUILT,
             model=cad_model,
             diagnostics=diagnostics
+        )
+
+    def build_from_template(self, template_result: TemplateResult) -> BuildResult:
+        """Build a CAD model from a parametric template's resolved shapes."""
+        diagnostics = list(template_result.diagnostics)
+
+        report = template_result.verification
+        if report is not None and report.refuted:
+            for r in report.refuted:
+                diagnostics.append(f"binding refuted: {r.summary()}")
+            return BuildResult(
+                status=BuildStatus.INVALID_RESOLVED_GEOMETRY,
+                diagnostics=diagnostics,
+            )
+
+        cad_model = CADModel()
+        for shape in template_result.shapes:
+            cad_model.polygons.append(PolygonShape(
+                id=shape.id, layer=shape.layer.value, rings=shape.rings,
+                z=shape.z, thickness=shape.thickness, derivation=shape.derivation,
+            ))
+
+        if cad_model.is_empty():
+            diagnostics.append(
+                "Template produced no shapes; refusing to emit an empty model."
+            )
+            return BuildResult(
+                status=BuildStatus.INVALID_RESOLVED_GEOMETRY,
+                diagnostics=diagnostics,
+            )
+
+        return BuildResult(
+            status=BuildStatus.BUILT, model=cad_model, diagnostics=diagnostics
         )

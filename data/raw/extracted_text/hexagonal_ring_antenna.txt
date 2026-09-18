@@ -1,460 +1,253 @@
- 
-978-1-7281-1034-9/19/$31.00 ©2019 IEEE 
- 
-Stub loaded compact hexagonal ring antenna for 
+Stub loaded compact hexagonal ring antenna for
 WLAN/WiMAX/ITU applications
- 
-Md. Zuber Khan1 
-School of Electronics Engineering 
-(SENSE) 
-VIT Chennai 
-Chennai, India 
-zuberk75@gmail.com  
- 
-Ravi Prakash Dwivedi1  
-School of Electronics Engineering 
-(SENSE) 
-VIT Chennai 
-Chennai, India 
-raviprakash.dwivedi@vit.ac.in 
- 
- 
- 
- 
-Usha Kiran K1 
-School of Electronics Engineering 
-(SENSE) 
-VIT Chennai 
-Chennai, India 
-usha.kiran@vit.ac.in
-Abstract—A compact stub loaded hexagonal ring shape 
-antenna using CPW feed is designed and implemented 
-for WLAN/WiMAX/ITU application. Y- Shape stub is 
-loaded inside hexagonal ring to achieve multiband 
-performance with miniaturization. The proposed 
-antenna is highly compact with (20 × 20 × 0.8) mm³ 
-dimension. The impedance bandwidth of the antenna is 3 
-GHz for both the band respectively from 2.9 to 5.9 GHz 
-and 7 to 10 GHz. The substrate material used is Flame 
-Retardent-4 (FR-4) due to its availability and low cost of 
-fabrication. Relative dielectric constant and substrate 
-thickness of material is 4.4 and 0.8 mm respectively. 
-Ansys HFSS tool is used to optimize the designed 
-parameters and experimental validation is done by 
-Vector Network Analyzer. 
-Keywords—Y shape stub, CPW feed, multiband, 
-hexagonal ring, miniaturization. 
-I. INTRODUCTION 
- 
-Today’s communication technology demands wide 
-bandwidth to integrate various applications in a single 
-device. Multiple wireless standards must be supported for 
-versatility of the device. Due to its conformal nature, 
-microstrip antennas are preferred. The low cost, simple 
-fabrication and easy integration in different circuitry has 
-made microstrip antennas very favorable. Currently 
-different techniques of multiband and wideband antenna for 
+Md. Zuber Khan1 Ravi Prakash Dwivedi1 Usha Kiran K1
+School of Electronics Engineering School of Electronics Engineering School of Electronics Engineering
+(SENSE) (SENSE) (SENSE)
+VIT Chennai VIT Chennai VIT Chennai
+Chennai, India Chennai, India Chennai, India
+zuberk75@gmail.com raviprakash.dwivedi@vit.ac.in usha.kiran@vit.ac.in
+Abstract—A compact stub loaded hexagonal ring shape band and triple-band antenna were discussed [10, 11].
+antenna using CPW feed is designed and implemented Fractal geometry also provides antennas for dual-band and
+for WLAN/WiMAX/ITU application. Y- Shape stub is wide-band applications [12]. Although mentioned methods
+loaded inside hexagonal ring to achieve multiband are proposed for creating dual-band [1], triple-band [2, 3]
+performance with miniaturization. The proposed and multi-band [4] structures with compact size, wide-band
+antenna is highly compact with (20 × 20 × 0.8) mm³ nature with multi-band application integrability in a single
+dimension. The impedance bandwidth of the antenna is 3 compact antenna was seldom discussed.
+GHz for both the band respectively from 2.9 to 5.9 GHz
+and 7 to 10 GHz. The substrate material used is Flame
+Retardent-4 (FR-4) due to its availability and low cost of II. ANTENNA GEOMETRY
+fabrication. Relative dielectric constant and substrate The proposed stub loaded antenna uses FR-4 substrate with
+thickness of material is 4.4 and 0.8 mm respectively. relative dielectric constant and loss tangent of 4.4 and 0.02
+Ansys HFSS tool is used to optimize the designed respectively, with a 50 coplanar waveguide (CPW)
+parameters and experimental validation is done by transmission line feed. The thickness of the substrate is X =
+Vector Network Analyzer. 0.8 mm. It has a feed length (F ) of 7.5 mm and feed width
+L
+Keywords—Y shape stub, CPW feed, multiband, F of 1.2 mm. Antennas of different evolution stages are
+W
+hexagonal ring, miniaturization. shown in Fig.1 from #1 to #3.
+I. INTRODUCTION
+Antenna #1 Antenna #2 Antenna #3
+Today’s communication technology demands wide
+bandwidth to integrate various applications in a single
+device. Multiple wireless standards must be supported for
+versatility of the device. Due to its conformal nature,
+microstrip antennas are preferred. The low cost, simple
+fabrication and easy integration in different circuitry has
+made microstrip antennas very favorable. Currently
+different techniques of multiband and wideband antenna for
 WLAN/ WiMAX/ ITU/ X-Band have been proposed [1-
-4].To achieve better performance in antenna application 
-different type of slots and strips such as inverted F and L 
-shaped slots used to create dual and triple band 
-performance. Different shape of strip added in radiating 
-element to achieve triple band characteristics [5, 6]. Ring 
-type radiator and stub loading have unique properties which 
-help to achieve both compactness and multiband response 
-simultaneously [7]. Meta-material structure has negative 
-permittivity and negative permeability which helps to 
-realize multiband performance [8, 9]. Split Ring Resonator 
-is a basic structure of permittivity; hence the improved 
-performance can be achieved without affecting the size of 
-radiating element. The Split Ring Resonator (SRR) and 
+4].To achieve better performance in antenna application
+different type of slots and strips such as inverted F and L
+(a) (b) (c)
+shaped slots used to create dual and triple band Fig.1: Design steps of antenna
+performance. Different shape of strip added in radiating
+Antenna #1 demonstrates an annular hexagonal ring antenna
+element to achieve triple band characteristics [5, 6]. Ring
+with a rectangular shaped ground plane where the hexagonal
+type radiator and stub loading have unique properties which
+shaped ring is the primary radiating element. Antenna #2
+help to achieve both compactness and multiband response
+exhibits tapering off of the ground plane. Hence improved
+simultaneously [7]. Meta-material structure has negative
+impedance matching is obtained in higher frequency region
+permittivity and negative permeability which helps to
+at the cost of losing the resonant band at the lower
+realize multiband performance [8, 9]. Split Ring Resonator
+frequency. Antenna #3 is the proposed stub loaded antenna,
+is a basic structure of permittivity; hence the improved
+which includes the tapered ground idea while maintaining
+performance can be achieved without affecting the size of
+radiating element. The Split Ring Resonator (SRR) and
+the previous dimensions (L × W). The stub acts as a
+radiating element combined with the annular ring. The stub
 Complementary Split Ring Resonator (CSRR) based dual-
-band and triple-band antenna were discussed [10, 11]. 
-Fractal geometry also provides antennas for dual-band and 
-wide-band applications [12]. Although mentioned methods 
-are proposed for creating dual-band [1], triple-band [2, 3] 
-and multi-band [4] structures with compact size, wide-band 
-nature with multi-band application integrability in a single 
-compact antenna was seldom discussed. 
- 
-II. ANTENNA GEOMETRY 
-The proposed stub loaded antenna uses FR-4 substrate with 
-relative dielectric constant and loss tangent of 4.4 and 0.02 
-respectively, with a 50 coplanar waveguide (CPW) 
-transmission line feed. The thickness of the substrate is X = 
-0.8 mm. It has a feed length (F L) of 7.5 mm and feed width 
-FW of 1.2 mm. Antennas of different evolution stages are 
-shown in Fig.1 from #1 to #3.  
- 
- 
-       Antenna #1                Antenna #2            Antenna #3      
-           (a)       (b)  (c) 
-Fig.1: Design steps of antenna 
- 
-Antenna #1 demonstrates an annular hexagonal ring antenna 
-with a rectangular shaped ground plane where the hexagonal 
-shaped ring is the primary radiating element. Antenna #2 
-exhibits tapering off of the ground plane. Hence improved 
-impedance matching is obtained in higher frequency region 
-at the cost of losing the resonant band at the lower 
-frequency. Antenna #3 is the proposed stub loaded antenna, 
-which includes the tapered ground idea while maintaining 
-the previous dimensions (L  × W). The stub acts as a 
-radiating element combined with the annular ring. The stub 
-helps retain resonance at lower frequency while maintaining 
-98Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 08,2026 at 20:37:08 UTC from IEEE Xplore.  Restrictions apply. 
-higher resonance. The proposed antenna parameters are 
-illustrated in Fig. 2. Dimensions of the final proposed 
-prototype is presented in Table 1.The formulae for obtaining 
-desired resonant bands has been shown Equations (1, 2 and 
-3). It should be noted that k mn = 1.84118 for TM 11 mode.  
-Optimizations were made to the parameters to maximize the 
-bandwidth of the dual- band antenna [14, 15]. 
- 
- 
-Fig.2: Dimensions of proposed antenna 
- 
- 
-ᡘぅ〲うあぁ〨ぁぇ 㐄
+helps retain resonance at lower frequency while maintaining
+978-1-7281-1034-9/19/$31.00 ©2019 IEEE
+98
+Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 08,2026 at 20:37:08 UTC from IEEE Xplore. Restrictions apply.
+higher resonance. The proposed antenna parameters are
+illustrated in Fig. 2. Dimensions of the final proposed
+prototype is presented in Table 1.The formulae for obtaining
+desired resonant bands has been shown Equations (1, 2 and
+3). It should be noted that k = 1.84118 for TM mode.
+mn 11
+Optimizations were made to the parameters to maximize the
+bandwidth of the dual- band antenna [14, 15].
+Fig.3: Simulated radiation efficiency of antenna design steps compared
+III. RESULTS AND DISCUSSION
+The working and parametric analysis is performed using
+High Frequency Structural Simulator (HFSS), which uses
+Finite Element Method (FEM) technique to validate the
+Fig.2: Dimensions of proposed antenna
+results.
+(1)
 ⤓〸㊈㊉
-⡰⥶〨㊀㊁㊁㒓や㊀㊁㊁
-                  (1) 
- 
-ᡓ〲〳〳㐄
+ᡘぅ〲うあぁ〨ぁぇ 㐄⡰⥶〨㊀㊁㊁㒓 や㊀㊁㊁
+(2)
 ⅵ❸⡸ⅵ❹
-❹                                                   (2) 
- 
- 
-When ( 
+ᡓ〲〳〳㐄 ❹
+When ( < 1):
 〇㉲
-⤈   < 1):  
-–〲〳〳 㐄
-や㊓⡸⡩
-⡰ ㎗
-や㊓⡹⡩
-⡰ 䚀㐶E㎗EF䙲
-ម
-Ⅲⅹ
-䙳
-⡹⡩L⡰
-㑀㎗NONP㐶E㎘䙲
-Ⅲⅹ
-ម 䙳㑀
-⡰
-䚁䙦T䙧                                                                                                                       
- 
-When ( 
+⤈
+や㊓⡸⡩ や㊓⡹⡩ ម ⡹⡩L⡰ Ⅲⅹ ⡰
+–〲〳〳 㐄 ⡰ ㎗ ⡰ 䚀㐶E㎗EF䙲Ⅲⅹ䙳 㑀㎗NONP㐶E㎘䙲ម䙳㑀 䚁䙦T䙧
+When ( > 1):
 〇㉲
-⤈   >  1):  
-–〲〳〳 㐄
-や㊓⡸⡩
-⡰ ㎗
-や㊓⡹⡩
-⡰ 㐶E㎗EF䙲
-ម
-Ⅲⅹ
-䙳
-⡹⡩L⡰
-㑀   (4) 
- 
- 
- 
- 
- 
-TABLE 1: Dimensions and parameters of proposed antenna 
- 
-Parameters Dimensions (mm) 
-L 20 
-W 20 
-S1 6.5 
-S2 5.3 
-S3 4.2 
-S4 4.76 
-H1 1 
-H2 0.5 
-F1 0.2 
-FW 1.2 
-G1 0.3 
-GL 6.5 
-FL 7.5 
-W1 9.1 
- 
- 
-Fig.3: Simulated radiation efficiency of antenna design steps compared 
- 
-III. RESULTS AND DISCUSSION 
-The working and parametric analysis is performed using 
-High Frequency Structural Simulator (HFSS), which uses 
-Finite Element Method (FEM) technique to validate the 
-results.  
- 
- 
- 
-Fig.4: Comparative simulated S11 graphs of the antenna design steps 
- 
- 
-It can be observed that each stage has constant overall 
-dimensions (L  × W). Fig.3 depicts the radiation efficiency 
-of the three different antennas. Antenna (#1) has resonant 
-frequencies at 4.4 GHz and 6.6 GHz. A broad bandwidth of 
-4.1 GHz (3.5 GHz – 7.6 GHz) is observed but lower 
-frequencies are not covered.   To achieve resonance at the 
-lower side, the ground plane is tapered in antenna (#1), 
-hence antenna (#2) is obtained as shown in Fig.1b. Antenna 
-(#2) shows resonance at 4.1 GHz covering a bandwidth of 
-3.4 GHz (3 GHz – to 6.4Hz). Due to tapering of ground 
-plane lower resonance is maintained but resonance at higher 
-frequency is lost in antenna (#2). Tapering off the ground 
-plane transforms the impedance linearly at the lower band. 
-In square shaped ground plane resonance was obtained at 
-3.5GHz. After tapering the resonance shifted to 3GHz due 
-to increased electrical length, it is depicted in antenna (#2). 
-In order to compensate the loss of resonance at higher 
-99Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 08,2026 at 20:37:08 UTC from IEEE Xplore.  Restrictions apply. 
-frequency optimizations were done. The impedance versus 
-frequency graphs were studied and it was observed that 
-impedance was increasing due to stub loading so further 
-tapering is carried out to reduce impedance and to maintain 
-resonance at higher frequency.  Antenna (#3) is derived 
-from antenna (#2) structure by introducing a Y shaped stub 
-onto the annular hexagonal ring keeping the overall 
-dimensions unchanged as shown in Fig.1c.  
- 
- 
- 
-     (a)       (b)       (c) 
-Fig.5 
-Simulated current distributions at (a) 3.5 GHz (b) 5.8 GHz (c)7.4 GHz 
- 
- 
- 
- 
-Antenna (#3) performs well at both higher and lower 
-frequency region. Creating notches at 3.9 GHz and 5.8 GHz 
-antenna (#3) covers a bandwidth of 1.8 GHz (3 GHz – 4.8 
+(4)
+⤈
+や㊓⡸⡩ や㊓⡹⡩ ម ⡹⡩L⡰
+–〲〳〳 㐄 ⡰ ㎗ ⡰ 㐶E㎗EF䙲Ⅲⅹ䙳 㑀
+Fig.4: Comparative simulated S11 graphs of the antenna design steps
+TABLE 1: Dimensions and parameters of proposed antenna
+It can be observed that each stage has constant overall
+Parameters Dimensions (mm) dimensions (L × W). Fig.3 depicts the radiation efficiency
+L 20 of the three different antennas. Antenna (#1) has resonant
+W 20 frequencies at 4.4 GHz and 6.6 GHz. A broad bandwidth of
+S 6.5 4.1 GHz (3.5 GHz – 7.6 GHz) is observed but lower
+1
+frequencies are not covered. To achieve resonance at the
+S 5.3
+2 lower side, the ground plane is tapered in antenna (#1),
+S 4.2
+3 hence antenna (#2) is obtained as shown in Fig.1b. Antenna
+S 4.76
+4 (#2) shows resonance at 4.1 GHz covering a bandwidth of
+H 1 1 3.4 GHz (3 GHz – to 6.4Hz). Due to tapering of ground
+H 2 0.5 plane lower resonance is maintained but resonance at higher
+F 1 0.2 frequency is lost in antenna (#2). Tapering off the ground
+F W 1.2 plane transforms the impedance linearly at the lower band.
+G 1 0.3 In square shaped ground plane resonance was obtained at
+G L 6.5 3.5GHz. After tapering the resonance shifted to 3GHz due
+F 7.5 to increased electrical length, it is depicted in antenna (#2).
+L
+W 9.1 In order to compensate the loss of resonance at higher
+1
+99
+Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 08,2026 at 20:37:08 UTC from IEEE Xplore. Restrictions apply.
+frequency optimizations were done. The impedance versus TABLE 2: Comparitive study if different antennas and proposed antenna
+frequency graphs were studied and it was observed that
+impedance was increasing due to stub loading so further Reference Antenna Size Operating
+tapering is carried out to reduce impedance and to maintain (mm2) Frequencies
+resonance at higher frequency. Antenna (#3) is derived Range (GHz)
+from antenna (#2) structure by introducing a Y shaped stub 5 30×30 2.9 - 7.9
+onto the annular hexagonal ring keeping the overall 6 40×40 5.02 - 10.84
+dimensions unchanged as shown in Fig.1c. 7 28×26.5 4.75 - 11.1
+10 50×50 1.48 - 1.87,
+2.39 - 2.71,
+3.02 - 3.16
+Proposed 20×20 3 - 4.8,
+Antenna 5.3 - 7.7
+(a) (b) (c)
+Fig.5
+Simulated current distributions at (a) 3.5 GHz (b) 5.8 GHz (c)7.4 GHz
+Antenna (#3) performs well at both higher and lower
+frequency region. Creating notches at 3.9 GHz and 5.8 GHz
+antenna (#3) covers a bandwidth of 1.8 GHz (3 GHz – 4.8
 GHz) and 2.4 GHz (5.3 GHz – 7.7 GHz) leading to a dual-
-band characteristics. Comparisons based on the return loss 
-(S11) have been depicted in Fig.4 of the different evolution 
-stages of the antenna. Fig.5 shows the current distributions 
-at different frequencies of antenna (#3). 
-  
- 
-    
-                     (a)                                                     (b) 
- 
-Fig.6: (a) Photograph of proposed antenna with SMA connector (b) 
-Proposed  antenna connected to VNA Tester 
- 
- 
-Observations were made that the annular ring radiated at 
-lower frequencies while resonance at higher frequencies was 
-obtained from the stub loading. The proposed stub loaded 
-antenna parameters have been established based on 
-parametric analysis. Measurement setups have been shown 
-in Fig.6 to determine the bandwidth of the antenna using 
-Vector Network Analyzer (VNA) and anechoic chamber. 
- 
- 
- 
- 
- 
- 
-TABLE 2: Comparitive study if different antennas and proposed antenna 
- 
-Reference Antenna Size 
-(mm2) 
-Operating 
-Frequencies 
-Range (GHz) 
-5 30×30 2.9 - 7.9 
-6 40×40 5.02 - 10.84 
-7 28×26.5 4.75 - 11.1 
-10 50×50 1.48 - 1.87, 
-2.39 - 2.71, 
-3.02 - 3.16 
-Proposed 
-Antenna 
-20×20 3 - 4.8, 
-5.3 - 7.7 
- 
- 
-Fig.7: Parametric analysis of S11 by varying gap between signal and 
-ground plane 
- 
- 
-Fig.8: Parametric analysis of S11 by varying gap F1 
- 
-Among the diverse parameters to be varied, the feed-ground 
-plane gap (G1) and thickness of stub feed (F1) had major 
-impact on the resonant frequencies. Fig.7 and Fig.8 depicts 
-the shift in resonance for different values of the parameters. 
-Hence for better coupling and wide bandwidth the 
-parameters were optimized and selected. Fig.10 shows the 
-voltage standing wave ratio (VSWR) of the proposed stub 
-loaded antenna. Impedance matching is represented through 
-this parameter.  
+band characteristics. Comparisons based on the return loss
+(S11) have been depicted in Fig.4 of the different evolution
+Fig.7: Parametric analysis of S11 by varying gap between signal and
+stages of the antenna. Fig.5 shows the current distributions
+ground plane
+at different frequencies of antenna (#3).
+(a) (b)
+Fig.6: (a) Photograph of proposed antenna with SMA connector (b) Fig.8: Parametric analysis of S11 by varying gap F1
+Proposed antenna connected to VNA Tester
+Among the diverse parameters to be varied, the feed-ground
+plane gap (G1) and thickness of stub feed (F1) had major
+Observations were made that the annular ring radiated at impact on the resonant frequencies. Fig.7 and Fig.8 depicts
+lower frequencies while resonance at higher frequencies was the shift in resonance for different values of the parameters.
+obtained from the stub loading. The proposed stub loaded Hence for better coupling and wide bandwidth the
+antenna parameters have been established based on parameters were optimized and selected. Fig.10 shows the
+parametric analysis. Measurement setups have been shown voltage standing wave ratio (VSWR) of the proposed stub
+in Fig.6 to determine the bandwidth of the antenna using loaded antenna. Impedance matching is represented through
+Vector Network Analyzer (VNA) and anechoic chamber. this parameter.
 100
-Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 08,2026 at 20:37:08 UTC from IEEE Xplore.  Restrictions apply. 
- 
-Fig.9: Measured and simulated S11 graphs of proposed antenna 
- 
- 
- 
-Fig.10: Simulated and measured VSWR graphs of proposed antenna 
- 
- 
-A VSWR of well below 2 is obtained in both resonance 
-frequency bands. Hence impedance matching is efficiently 
-achieved for dual band antenna. The radiation patterns of the 
-proposed stub loaded antenna are shown in Fig.11 at 3.5 
-GHz and 5.8 GHz. The E-plane and the H-plane radiation 
-characteristics are depicted from Fig.11 (a-d) were plotted 
-and it was noted that the E and H plane co-polarization was 
-omnidirectional. It is also inferred that the beam-width of 
-the proposed antenna is high nearly (~ 60º). The proposed 
-antenna with the other wideband microstrip antennas in the 
-literature [5-7, 10] is compared based on size and bandwidth 
-and presented in Table 2. Based on the comparative analysis 
-the proposed antenna stands out for its miniature property 
-and the wide bandwidth, compared to other wideband 
-antennas in the literature. 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
-IV. CONCLUSION 
-Compact stub loaded hexagonal ring antenna is designed 
-and implemented for WLAN, WiMAX and ITU 
-applications. The proposed antenna covers the entire band 
-with broader bandwidth. Stable radiation pattern is achieved
-with low cross polarization. Experimental results such as 
-return loss and VSWR are in well agreement with the 
-simulated results of the proposed antenna. Miniaturization 
-with multiband performance is achieved using ring type 
-structure with stub loading and it makes the prototype a 
-better candidate for wireless application. Gain of the
-prototype can be maximized using artificial magnetic 
-conductor as ground plane. 
- 
- 
-(a) 
- 
- 
- 
-(b) 
- 
- 
-(c) 
- 
- (d) 
-Fig.11: Simulated radiation patterns of the 
-proposed antenna (a-b) 3.5 GHz and 5.8 GHz 
+Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 08,2026 at 20:37:08 UTC from IEEE Xplore. Restrictions apply.
+(b)
+Fig.9: Measured and simulated S11 graphs of proposed antenna
+(c)
+Fig.10: Simulated and measured VSWR graphs of proposed antenna
+A VSWR of well below 2 is obtained in both resonance
+frequency bands. Hence impedance matching is efficiently
+(d)
+achieved for dual band antenna. The radiation patterns of the Fig.11: Simulated radiation patterns of the
+proposed stub loaded antenna are shown in Fig.11 at 3.5
+proposed antenna (a-b) 3.5 GHz and 5.8 GHz
+GHz and 5.8 GHz. The E-plane and the H-plane radiation
 for xz-plane (c-d) 3.5 GHz and 5.8 GHz for yz-
-plane  
+characteristics are depicted from Fig.11 (a-d) were plotted
+plane
+and it was noted that the E and H plane co-polarization was
+omnidirectional. It is also inferred that the beam-width of
+IV. CONCLUSION
+the proposed antenna is high nearly (~ 60º). The proposed
+antenna with the other wideband microstrip antennas in the Compact stub loaded hexagonal ring antenna is designed
+literature [5-7, 10] is compared based on size and bandwidth and implemented for WLAN, WiMAX and ITU
+and presented in Table 2. Based on the comparative analysis applications. The proposed antenna covers the entire band
+the proposed antenna stands out for its miniature property withbroaderbandwidth.Stableradiationpatternisachieved
+and the wide bandwidth, compared to other wideband with low cross polarization. Experimental results such as
+antennas in the literature. return loss and VSWR are in well agreement with the
+simulated results of the proposed antenna. Miniaturization
+with multiband performance is achieved using ring type
+structure with stub loading and it makes the prototype a
+better candidate for wireless application. Gain of the
+prototype can be maximized using artificial magnetic
+conductor as ground plane.
 101
-Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 08,2026 at 20:37:08 UTC from IEEE Xplore.  Restrictions apply. 
-REFERENCES 
-[1] Liu, Wen-Chung & Wu, Chao-Ming & Chu, Nien-Chang, “A compact 
+(a)
+A uthorized licensed use limited to: Chitkara University Punjab. Downloaded on September 08,2026 at 20:37:08 UTC from IEEE Xplore. Restrictions apply.
+REFERENCES
+[1] Liu, Wen-Chung & Wu, Chao-Ming & Chu, Nien-Chang,“A compact
 low-profile dual-band antenna for WLAN and WAVE applications.” AEU-
-INT J ELECTRON COMMUN, vol. 66, pp. 467-471, June 2012. 
-[2] Xu, Y.; Jiao, Y.-C.; Luan, Y.-C., “Compact CPW-fed printed monopole 
-antenna with triple-band characteristics for WLAN/WiMAX applications”, 
-Electronics Letters, vol. 48, pp. 1519—520, November 2012.  
-[3] H. Chen, X. Yang, Y. Z. Yin, S. T. Fan and J. J. Wu, "Triband Planar 
-Monopole Antenna With Compact Radiator for WLAN/WiMAX 
-Applications," IEEE Antennas and Wireless Propagation Letters, vol. 12, 
-pp. 1440-1443, October 2013. 
-[4] S. C. Basaran, U. Olgun and K. Sertel, "Multiband monopole antenna 
-with complementary split-ring resonators for WLAN and WiMAX 
-applications," Electronics Letters, vol. 49, no. 10, pp. 636-638, May 2013.  
-[5] K. Oteng Gyasi et al., "A Compact Broadband Circularly Polarized Slot 
-Antenna with Two Linked Rectangular Slots and an Inverted-F Feed 
+INT J ELECTRON COMMUN, vol. 66, pp. 467-471, June 2012.
+[2] Xu, Y.; Jiao, Y.-C.; Luan, Y.-C., “Compact CPW-fed printed monopole
+antenna with triple-band characteristics for WLAN/WiMAX applications”,
+Electronics Letters, vol. 48, pp. 1519—520, November 2012.
+[3] H. Chen, X. Yang, Y. Z. Yin, S. T. Fan and J. J. Wu, "Triband Planar
+Monopole Antenna With Compact Radiator for WLAN/WiMAX
+Applications," IEEE Antennas and Wireless Propagation Letters, vol. 12,
+pp. 1440-1443, October 2013.
+[4] S. C. Basaran, U. Olgun and K. Sertel, "Multiband monopole antenna
+with complementary split-ring resonators for WLAN and WiMAX
+applications," Electronics Letters, vol. 49, no. 10, pp. 636-638, May 2013.
+[5] K. Oteng Gyasi et al., "A Compact Broadband Circularly Polarized Slot
+Antenna with Two Linked Rectangular Slots and an Inverted-F Feed
 Line," IEEE Transactions on Antennas and Propagation, vol. 66, pp. 7374-
-7377, December 2018.  
-[6] M. Midya, S. Bhattacharjee and M. Mitra, "Pair of grounded L strips 
-loaded broadband circularly polarised square slot antenna with enhanced 
-axial ratio bandwidth," Electronics Letters, vol. 54, pp. 917-918, July 2018. 
-[7] Dwivedi RP, Kommuri UK. “CPW feed dual band and wideband 
-antennas using crescent shape and TVshape stub for WiVFi and WiMAX 
-application.” Microw Opt Technol Lett., vol. 54, pp. 2586-2591, March 
-2017. 
-[8] Park, Seong-Ook & Kang, Hyunseong, “Mushroom Meta-material 
-based Substrate Integrated Waveguide (SIW) Cavity Backed Slot Antenna 
-with Broadband and Reduced Back Radiation.”, IET Microwaves, 
-Antennas & Propagation, vol. 10, pp. 1598-1603, November 2016. 
-[9] Rengasamy, Rajkumar & Kommuri, Usha. “A Metamaterial Inspired 
-Compact Open Split Ring Resonator Antenna for Multiband Operation.”, 
-Wireless Personal Communications, vol. 97, pp. 951-965, May 2017.  
-[10] P. M. Paul, K. Kandasamy and M. S. Sharawi, "A Triband Circularly 
-Polarized Strip and SRR-Loaded Slot Antenna," IEEE Transactions on 
-Antennas and Propagation, vol. 66, pp. 5569-5573, October 2018. 
-[11] Elsdon, M. and Yurduseven, O. “DirectVfed reduced size patch antenna 
-using array of cSRR in the ground plane”, Microw. Opt. Technol. Lett., vol. 
-57, pp. 1526-1529, December 2014. 
- [12] Dwivedi, RP, Kommuri, UK. “Compact high gain UWB antenna 
-using fractal geometry and UWBVAMC”, Microw Opt Technol Lett., 
-vol. 61, pp. 787– 793, March 2019 .  
-[13] R. Ghatak, R. K. Mishra and D. R. Poddar, "Perturbed Sierpinski 
-Carpet Antenna With CPW Feed for IEEE 802.11 a/b WLAN Application," 
-in IEEE Antennas and Wireless Propagation Letters, vol. 7, pp. 742-744, 
-August 2008.  
-[14] Constantine A. Balanis, Antenna Theory, Analysis, and Design, 
-4th ed. Hoboken: John Wiley and Sons Ltd, 2016 
-[15] Ahmed Adem, Usama & Shah, Ajmal & Nataraj, Chandrasekharan & 
-Kumar Selvaperumal, Dr Sathish & Khan, Sheroz, “Design and Analysis of 
-a Circular Ring Patch Antenna Array for UHF Applications”, Theory and 
-Applications of Applied Electromagnetics, vol. 344, pp. 275-285  May 
-2015 
- 
+7377, December 2018.
+[6] M. Midya, S. Bhattacharjee and M. Mitra, "Pair of grounded L strips
+loaded broadband circularly polarised square slot antenna with enhanced
+axial ratio bandwidth," Electronics Letters, vol. 54, pp. 917-918, July 2018.
+[7] Dwivedi RP, Kommuri UK. “CPW feed dual band and wideband
+antennas using crescent shape and Tshape stub for WiFi and WiMAX
+application.” Microw Opt Technol Lett., vol. 54, pp. 2586-2591, March
+2017. V V
+[8] Park, Seong-Ook & Kang, Hyunseong, “Mushroom Meta-material
+based Substrate Integrated Waveguide (SIW) Cavity Backed Slot Antenna
+with Broadband and Reduced Back Radiation.”, IET Microwaves,
+Antennas & Propagation, vol. 10, pp. 1598-1603, November 2016.
+[9] Rengasamy, Rajkumar & Kommuri, Usha. “A Metamaterial Inspired
+Compact Open Split Ring Resonator Antenna for Multiband Operation.”,
+Wireless Personal Communications, vol. 97, pp. 951-965, May 2017.
+[10] P. M. Paul, K. Kandasamy and M. S. Sharawi, "A Triband Circularly
+Polarized Strip and SRR-Loaded Slot Antenna," IEEE Transactions on
+Antennas and Propagation, vol. 66, pp. 5569-5573, October 2018.
+[11] Elsdon, M. and Yurduseven, O. “Directfed reduced size patch antenna
+using array of cSRR in the ground plane”, Microw. Opt. Technol. Lett., vol.
+57, pp. 1526-1529,December 2014. V
+[12] Dwivedi, RP, Kommuri, UK. “Compact high gain UWB antenna
+using fractal geometry and UWBAMC”, Microw Opt Technol Lett.,
+vol. 61, pp. 787– 793, March 2019 .
+[13] R. Ghatak, R. K. Mishra and VD. R. Poddar, "Perturbed Sierpinski
+Carpet Antenna With CPW Feed for IEEE 802.11 a/b WLAN Application,"
+in IEEE Antennas and Wireless Propagation Letters, vol. 7, pp. 742-744,
+August 2008.
+[14] Constantine A. Balanis, Antenna Theory, Analysis, and Design,
+4th ed. Hoboken: John Wiley and Sons Ltd, 2016
+[15] Ahmed Adem, Usama & Shah, Ajmal & Nataraj, Chandrasekharan &
+Kumar Selvaperumal, Dr Sathish & Khan, Sheroz, “Design and Analysis of
+a Circular Ring Patch Antenna Array for UHF Applications”, Theory and
+Applications of Applied Electromagnetics, vol. 344, pp. 275-285 May
+2015
 102
-Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 08,2026 at 20:37:08 UTC from IEEE Xplore.  Restrictions apply. 
+Authorized licensed use limited to: Chitkara University Punjab. Downloaded on September 08,2026 at 20:37:08 UTC from IEEE Xplore. Restrictions apply.
