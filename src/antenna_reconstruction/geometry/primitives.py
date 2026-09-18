@@ -83,6 +83,56 @@ def inset_circumradius(circumradius: float, n_sides: int, thickness: float) -> f
     return circumradius_from_edge(inner_edge, n_sides)
 
 
+# Curves are emitted as polylines. 180 segments keeps the chord error below
+# ~0.02% of the radius, which is far under the precision any paper states, and
+# it gives EM meshers a single uniform representation to work from.
+DEFAULT_CIRCLE_SEGMENTS = 180
+
+
+def circle(center: Point, radius: float,
+           segments: int = DEFAULT_CIRCLE_SEGMENTS) -> Ring:
+    """A circle discretised as a closed polyline, counter-clockwise."""
+    if radius <= 0:
+        raise GeometryError(f"radius must be > 0, got {radius}")
+    if segments < 8:
+        raise GeometryError(f"segments must be >= 8, got {segments}")
+    cx, cy = center
+    step = 2.0 * math.pi / segments
+    return [
+        (cx + radius * math.cos(i * step), cy + radius * math.sin(i * step))
+        for i in range(segments)
+    ]
+
+
+def ellipse(center: Point, semi_major: float, semi_minor: float,
+            rotation_deg: float = 0.0,
+            segments: int = DEFAULT_CIRCLE_SEGMENTS) -> Ring:
+    """An ellipse discretised as a closed polyline, counter-clockwise."""
+    if semi_major <= 0 or semi_minor <= 0:
+        raise GeometryError(
+            f"semi-axes must be > 0, got {semi_major}, {semi_minor}"
+        )
+    if segments < 8:
+        raise GeometryError(f"segments must be >= 8, got {segments}")
+    cx, cy = center
+    phi = math.radians(rotation_deg)
+    cos_p, sin_p = math.cos(phi), math.sin(phi)
+    step = 2.0 * math.pi / segments
+    out: Ring = []
+    for i in range(segments):
+        x = semi_major * math.cos(i * step)
+        y = semi_minor * math.sin(i * step)
+        out.append((cx + x * cos_p - y * sin_p, cy + x * sin_p + y * cos_p))
+    return out
+
+
+def equilateral_triangle_height(side: float) -> float:
+    """Height of an equilateral triangle from its side length."""
+    if side <= 0:
+        raise GeometryError(f"side must be > 0, got {side}")
+    return side * math.sqrt(3.0) / 2.0
+
+
 def rectangle(x_left: float, y_bottom: float, x_right: float, y_top: float) -> Ring:
     """Axis-aligned rectangle, counter-clockwise from bottom-left."""
     if x_right <= x_left or y_top <= y_bottom:

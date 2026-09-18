@@ -10,10 +10,15 @@ undetermined rather than guessed**.
 **`template_pipeline.TemplatePipeline`** — the path that works on real papers.
 
 ```text
-PDF --> parameter table --> template match --> BINDING VERIFICATION --> geometry --> DXF
+PDF --> tables + prose --> template match --> BINDING VERIFICATION --> geometry --> DXF
                                                       |
                                                  refuted? stop.
 ```
+
+Dimensions are read from parameter tables where they exist and from running
+text where they do not. Tables outrank prose: a table is an explicit structured
+statement, prose is recovered by pattern matching over text a PDF extractor may
+have mangled.
 
 **`pipeline.AntennaReconstructionPipeline`** — the original sentence-level path
 (Components 1-3: regex extraction, SymPy constraint solving, CAD build). It
@@ -62,21 +67,41 @@ python examples/render_reconstruction.py
 
 ## Current results
 
-| paper | symbols | template | built | verified |
+| paper | source | template | built | verified |
 |---|---|---|---|---|
-| hexagonal_ring_antenna | 14 | hexagonal_ring_cpw_monopole | yes | **yes** (3/3) |
-| rectangular_patch_array | 2 | rectangular_patch | yes | no (no redundancy) |
-| microstrip_patch_antenna | 0 | — | no | — |
-| square_patch_antenna | 0 | — | no | — |
-| synthetic_antenna | 0 | — | no | — |
+| hexagonal_ring_antenna | table (14 symbols) | hexagonal_ring_cpw_monopole | yes | **yes** (3/3) |
+| microstrip_patch_antenna | prose | rectangular_patch | yes | no (no redundancy) |
+| rectangular_patch_array | table headers | rectangular_patch | yes | no (no redundancy) |
+| square_patch_antenna | prose | — | no | contested symbols |
+| synthetic_antenna | — | — | no | no planar geometry stated |
 
-The three failures are honest: those papers carry no machine-readable geometry
-table, so the pipeline reports that instead of inventing dimensions. Reaching
-them needs prose/figure extraction, not more solver work.
+The two failures are honest. `square_patch_antenna` describes three design
+variants and assigns `L` five different values, so its symbols are dropped
+rather than guessed; `synthetic_antenna` states only a substrate thickness.
+Per-paper outcomes are pinned in `tests/test_papers_end_to_end.py` so a
+regression in coverage fails the suite.
 
 Even for the paper that succeeds, the **tapered ground plane is not emitted**:
 `GL`, `G1` and `W1` fix its height and inner edge, but nothing in Table 1 gives
 the taper's slope or apex. That gap is reported.
+
+## Shape vocabulary
+
+| template | symbols | verified by |
+|---|---|---|
+| `hexagonal_ring_cpw_monopole` | `L W S1..S4 H1 H2 F1 FW FL G1 GL W1` | 3 relations |
+| `rectangular_patch` | `W L` + optional `SW SL` | none available |
+| `circular_patch` | `R` + optional `D` | `D = 2R` |
+| `annular_ring` | `RO RI` + optional `WR` | `WR = RO - RI` |
+| `triangular_patch` | `ST` + optional `HT` | `HT = ST*sqrt(3)/2` |
+| `rectangular_patch_array` | `W L NX NY DX DY` | spacing clears the element |
+
+Curves are emitted as 180-segment polylines (chord error under ~0.02% of the
+radius), giving CAD and EM consumers one uniform representation.
+
+```bash
+python examples/render_shape_gallery.py
+```
 
 ## Layout
 
@@ -84,11 +109,12 @@ the taper's slope or apex. That gap is reported.
 src/antenna_reconstruction/
   geometry_extraction/     Component 1 - evidence -> GeometryIR
     ingestion/pdf.py         structure-preserving PDF + table extraction
+    ingestion/prose.py       dimensions stated in running text
   coordinate_engine/       Component 2 - SymPy constraint solving (no LLM)
   cad_builder/             Component 3 - geometry -> DXF, layer-aware
   geometry/primitives.py   polygons, uniform insets, boolean difference
   binding/verifier.py      the propose-then-verify engine
-  templates/               parametric antenna families
+  templates/               parametric antenna families (6 shapes)
   template_pipeline.py     PDF -> DXF
 ```
 
@@ -125,5 +151,6 @@ hexagons being flat-top, the ring sitting on the feed — is recorded in
 python -m pytest tests -q
 ```
 
-68 tests. `tests/test_no_silent_success.py` pins the regression that motivated
+97 tests. `tests/test_no_silent_success.py` pins the regression that motivated
 this design: the pipeline used to return success with an empty DXF.
+`tests/test_papers_end_to_end.py` pins what each sample paper should produce.

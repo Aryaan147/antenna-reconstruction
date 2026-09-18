@@ -10,6 +10,8 @@ import re
 from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, Field
 
+from .prose import ProseExtraction, extract_prose_parameters
+
 # A symbol like W, L, S1, H_1, F_W, GL. Deliberately narrow: parameter symbols
 # in these papers are 1-3 chars plus an optional digit/letter subscript.
 SYMBOL_RE = re.compile(r"^([A-Za-z]{1,3})[\s_]*([0-9]{1,2}|[A-Za-z])?$")
@@ -41,14 +43,28 @@ class PdfDocument(BaseModel):
     text: str = ""
     tables: List[RawTable] = Field(default_factory=list)
     parameter_tables: List[ParameterTable] = Field(default_factory=list)
+    prose: Optional["ProseExtraction"] = None
 
-    def merged_parameters(self) -> Dict[str, float]:
-        """All parameter tables merged. Earlier tables win on conflict."""
+    def merged_parameters(self, include_prose: bool = True) -> Dict[str, float]:
+        """Every source merged, tables first.
+
+        Tables outrank prose: a parameter table is an explicit, structured
+        statement of the design, whereas prose is recovered by pattern
+        matching over text a PDF extractor may have mangled.
+        """
         merged: Dict[str, float] = {}
         for pt in self.parameter_tables:
             for k, v in pt.values.items():
                 merged.setdefault(k, v)
+
+        if include_prose and self.prose is not None:
+            from .prose import to_template_symbols
+            for k, v in to_template_symbols(self.prose).items():
+                merged.setdefault(k, v)
         return merged
+
+    def diagnostics(self) -> List[str]:
+        return list(self.prose.diagnostics) if self.prose is not None else []
 
 
 def _clean(cell: Optional[str]) -> str:
@@ -220,4 +236,8 @@ def extract_pdf(path: str, source_id: Optional[str] = None) -> PdfDocument:
                     doc.parameter_tables.extend(parse_header_oriented_table(table))
 
     doc.text = "\n".join(text_parts)
+    doc.prose = extract_prose_parameters(doc.text)
     return doc
+
+
+PdfDocument.model_rebuild()

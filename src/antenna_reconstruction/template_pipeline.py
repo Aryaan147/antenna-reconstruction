@@ -65,10 +65,14 @@ class TemplatePipeline:
     def run_from_pdf(self, pdf_path: str, output_path: str,
                      template_name: Optional[str] = None) -> ReconstructionResult:
         doc = extract_pdf(pdf_path)
-        return self.run_from_parameters(
+        result = self.run_from_parameters(
             doc.merged_parameters(), output_path,
             source_id=doc.source_id, template_name=template_name,
         )
+        # Ambiguities found while reading the paper matter even when the build
+        # succeeds, so they are carried through rather than discarded.
+        result.diagnostics.extend(doc.diagnostics())
+        return result
 
     def run_from_parameters(self, values: Dict[str, float], output_path: str,
                             source_id: str = "parameters",

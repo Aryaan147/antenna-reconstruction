@@ -3,9 +3,21 @@ from typing import Dict, List, Optional
 from .base import Layer, Shape, Template, TemplateResult
 from .hexagonal_ring import HexagonalRingTemplate
 from .rectangular_patch import RectangularPatchTemplate
+from .shapes import (
+    AnnularRingTemplate, CircularPatchTemplate, PatchArrayTemplate,
+    TriangularPatchTemplate,
+)
 
 TEMPLATES: Dict[str, Template] = {
-    t.name: t for t in (HexagonalRingTemplate(), RectangularPatchTemplate())
+    t.name: t
+    for t in (
+        HexagonalRingTemplate(),
+        RectangularPatchTemplate(),
+        CircularPatchTemplate(),
+        AnnularRingTemplate(),
+        TriangularPatchTemplate(),
+        PatchArrayTemplate(),
+    )
 }
 
 
@@ -42,5 +54,7 @@ def rank_templates(values: Dict[str, float]) -> List[tuple]:
 
 __all__ = [
     "Layer", "Shape", "Template", "TemplateResult", "HexagonalRingTemplate",
-    "RectangularPatchTemplate", "TEMPLATES", "get_template", "rank_templates",
+    "RectangularPatchTemplate", "CircularPatchTemplate", "AnnularRingTemplate",
+    "TriangularPatchTemplate", "PatchArrayTemplate",
+    "TEMPLATES", "get_template", "rank_templates",
 ]
