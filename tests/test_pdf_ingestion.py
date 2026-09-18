@@ -62,3 +62,26 @@ def test_real_paper_table_survives_extraction():
     # Provenance must point back at a real table cell.
     pt = doc.parameter_tables[0]
     assert pt.provenance["S1"]["page"] >= 1
+
+
+def test_a_table_with_no_length_unit_is_not_a_parameter_table():
+    """Regression: a machine-learning results table - model names against
+    resonant frequencies in GHz - was read as antenna dimensions because the
+    unit defaulted to mm when none was declared."""
+    table = RawTable(page=1, index=0, rows=[
+        ["Model", "f (GHz)", "eta", "SAR(W/Kg)"],
+        ["ANN", "3.297195", "0.9567030", "0.35847158"],
+        ["GPR", "3.10019433", "0.98", "0.31"],
+        ["SVR", "3.09318565", "0.96", "0.33"],
+    ])
+    assert parse_parameter_table(table) is None
+
+
+def test_column_headers_are_not_mistaken_for_symbols():
+    for word in ("Model", "Value", "Gain", "Type", "SNo"):
+        assert normalize_symbol(word) is None
+
+
+def test_multi_character_subscripts_survive():
+    assert normalize_symbol("L SII") == "L_SII"
+    assert normalize_symbol("W R") == "WR"

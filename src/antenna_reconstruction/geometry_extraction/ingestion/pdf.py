@@ -15,7 +15,17 @@ from .prose import ProseExtraction, extract_prose_parameters
 
 # A symbol like W, L, S1, H_1, F_W, GL. Deliberately narrow: parameter symbols
 # in these papers are 1-3 chars plus an optional digit/letter subscript.
-SYMBOL_RE = re.compile(r"^([A-Za-z]{1,3})[\s_]*([0-9]{1,2}|[A-Za-z])?$")
+# A symbol plus an optional subscript. The subscript may be a number (S1), a
+# letter (FW), or a short roman/alpha tag that a PDF stacks onto a second line
+# ("L\nSII" -> L_SII), which is how several papers typeset their tables.
+SYMBOL_RE = re.compile(
+    r"^([A-Za-z]{1,3})[\s_]*([0-9]{1,2}|[A-Za-z]{1,4})?$"
+)
+# Words that look like symbols to the pattern above but head a column instead.
+NOT_A_SYMBOL = {
+    "gain", "model", "value", "type", "unit", "name", "item", "band", "mode",
+    "sno", "no", "mm", "cm", "loss", "note", "step", "case", "ref", "sr",
+}
 NUMBER_RE = re.compile(r"^[-+]?[0-9]*\.?[0-9]+$")
 UNIT_IN_HEADER_RE = re.compile(r"\((m?m)m?\s*\)|\b(mm|cm|m)\b", re.IGNORECASE)
 
@@ -100,10 +110,15 @@ def normalize_symbol(raw: str) -> Optional[str]:
     s = _clean(raw)
     if not s or len(s) > 6:
         return None
+    if s.lower().replace(" ", "") in NOT_A_SYMBOL:
+        return None
     m = SYMBOL_RE.match(s)
     if not m:
         return None
     head, sub = m.group(1), m.group(2) or ""
+    # Keep a multi-character subscript readable: L + SII -> L_SII.
+    if len(sub) > 1 and not sub.isdigit():
+        return f"{head}_{sub}"
     return f"{head}{sub}"
 
 
@@ -119,7 +134,13 @@ def _parse_number(raw: str) -> Optional[float]:
         return None
 
 
-def _detect_unit(rows: List[List[Optional[str]]]) -> str:
+def _detect_unit(rows: List[List[Optional[str]]]) -> Optional[str]:
+    """The length unit this table is in, or None if it declares none.
+
+    Returning None matters: a table with no length unit is not a geometry
+    table. Defaulting to mm let a machine-learning results table - model names
+    against resonant frequencies in GHz - be read as antenna dimensions.
+    """
     for row in rows[:3]:
         for cell in row:
             m = UNIT_IN_HEADER_RE.search(_clean(cell))
@@ -127,37 +148,49 @@ def _detect_unit(rows: List[List[Optional[str]]]) -> str:
                 found = (m.group(1) or m.group(2) or "").lower()
                 if found in {"mm", "cm", "m"}:
                     return found
-    return "mm"
+    return None
 
 
-def parse_parameter_table(table: RawTable) -> Optional[ParameterTable]:
-    """Parse a raw table into symbol->value pairs, or None if it isn't one.
+def _scan_pairs(table: RawTable, symbol_first: bool):
+    """Read (symbol, value) pairs from adjacent columns, in either order.
 
-    Accepts the common layouts: a 2-column (symbol, value) table, and wider
-    tables where a (symbol, value) pair sits in adjacent columns.
+    Papers print both "Parameter | Dimensions (mm)" and the reverse,
+    "Value(mm) | Parameter", so both directions are tried.
     """
-    unit = _detect_unit(table.rows)
     values: Dict[str, float] = {}
     provenance: Dict[str, Dict[str, Any]] = {}
 
     for r_idx, row in enumerate(table.rows):
         cells = [_clean(c) for c in row]
         for c_idx in range(len(cells) - 1):
-            sym = normalize_symbol(cells[c_idx])
+            a, b = cells[c_idx], cells[c_idx + 1]
+            sym_cell, val_cell = (a, b) if symbol_first else (b, a)
+            sym = normalize_symbol(sym_cell)
             if sym is None:
                 continue
-            val = _parse_number(cells[c_idx + 1])
+            val = _parse_number(val_cell)
             if val is None:
                 continue
             if sym in values:
                 continue  # first occurrence wins; conflicts surface downstream
             values[sym] = val
             provenance[sym] = {
-                "page": table.page,
-                "table_index": table.index,
-                "row": r_idx,
-                "column": c_idx,
+                "page": table.page, "table_index": table.index,
+                "row": r_idx, "column": c_idx,
             }
+    return values, provenance
+
+
+def parse_parameter_table(table: RawTable) -> Optional[ParameterTable]:
+    """Parse a raw table into symbol->value pairs, or None if it isn't one."""
+    unit = _detect_unit(table.rows)
+    if unit is None:
+        # No length unit declared, so this is not a table of dimensions.
+        return None
+
+    forward = _scan_pairs(table, symbol_first=True)
+    reverse = _scan_pairs(table, symbol_first=False)
+    values, provenance = forward if len(forward[0]) >= len(reverse[0]) else reverse
 
     # A geometry parameter table needs a meaningful number of pairs; below this
     # we are almost certainly reading a results/comparison table by accident.
@@ -248,7 +281,23 @@ def extract_pdf(path: str, source_id: Optional[str] = None) -> PdfDocument:
     with pdfplumber.open(path) as pdf:
         for p_idx, page in enumerate(pdf.pages, start=1):
             text_parts.append(page.extract_text() or "")
+            # Word positions first: the cell grid can silently drop columns,
+            # which pairs a symbol with another symbol's number.
+            from .word_tables import parse_word_tables
+            word_tables = parse_word_tables(page, p_idx)
+            for wt in word_tables:
+                doc.parameter_tables.append(ParameterTable(
+                    page=wt.page, index=-1, unit=wt.unit,
+                    values=wt.values, provenance=wt.provenance,
+                ))
+
             for t_idx, raw in enumerate(page.extract_tables() or []):
+                if word_tables:
+                    # The word-grid already read this page's parameter block.
+                    # Re-reading it from the cell grid can only add the wrong
+                    # pairings that motivated the word-grid in the first place.
+                    doc.tables.append(RawTable(page=p_idx, index=t_idx, rows=raw))
+                    continue
                 table = RawTable(page=p_idx, index=t_idx, rows=raw)
                 doc.tables.append(table)
                 parsed = parse_parameter_table(table)

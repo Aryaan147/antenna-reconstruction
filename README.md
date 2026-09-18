@@ -133,12 +133,30 @@ radius), giving CAD and EM consumers one uniform representation.
 python examples/render_shape_gallery.py
 ```
 
+## Reading tables
+
+Parameter tables are read from **word coordinates**, not from a detected cell
+grid. That is not a preference - the grid parser is structurally unable to read
+some real layouts. On a four-column
+`Parameter | Value | Parameter | Value` table, pdfplumber returned only the
+right-hand half, so the left *value* column was paired with the right
+*parameter* column and **all seven recovered symbols carried another symbol's
+number**, with nothing to signal it. Reading the header's own x positions makes
+that impossible: a value can only pair with the symbol printed beside it. The
+same pass folds in typeset subscripts, where `L` sits above `SII` to mean
+`L_SII`.
+
+A table must also declare a length unit. Defaulting to mm let a
+machine-learning results table - model names against resonant frequencies in
+GHz - be read as antenna dimensions.
+
 ## Layout
 
 ```text
 src/antenna_reconstruction/
   geometry_extraction/     Component 1 - evidence -> GeometryIR
     ingestion/pdf.py         structure-preserving PDF + table extraction
+    ingestion/word_tables.py parameter tables rebuilt from word coordinates
     ingestion/prose.py       dimensions stated in running text
   coordinate_engine/       Component 2 - SymPy constraint solving (no LLM)
   cad_builder/             Component 3 - geometry -> DXF, layer-aware
@@ -183,6 +201,6 @@ hexagons being flat-top, the ring sitting on the feed — is recorded in
 python -m pytest tests -q
 ```
 
-125 tests. `tests/test_no_silent_success.py` pins the regression that motivated
+139 tests. `tests/test_no_silent_success.py` pins the regression that motivated
 this design: the pipeline used to return success with an empty DXF.
 `tests/test_papers_end_to_end.py` pins what each sample paper should produce.
