@@ -28,10 +28,15 @@ def test_all_declared_relations_are_confirmed(hex_result):
 
 def test_shapes_are_built_with_layers(hex_result):
     ids = {s.id: s for s in hex_result.shapes}
-    assert set(ids) == {"substrate", "outer_ring", "inner_ring", "feed"}
+    assert set(ids) == {
+        "substrate", "outer_ring", "inner_arc", "stub", "feed",
+        "ground_left", "ground_right",
+    }
     assert ids["substrate"].layer is Layer.SUBSTRATE
     assert ids["outer_ring"].layer is Layer.RADIATOR
+    assert ids["inner_arc"].layer is Layer.RADIATOR
     assert ids["feed"].layer is Layer.FEED
+    assert ids["ground_left"].layer is Layer.GROUND
 
 
 def test_everything_fits_inside_the_substrate(hex_result):
@@ -43,11 +48,27 @@ def test_everything_fits_inside_the_substrate(hex_result):
             assert x1 <= W + 1e-9 and y1 <= L + 1e-9
 
 
-def test_outer_ring_is_closed_and_inner_ring_is_split(hex_result):
+def test_outer_ring_is_closed_but_the_inner_arc_is_not(hex_result):
+    """Fig. 2 shows the inner structure open at the top, not a closed ring."""
     ids = {s.id: s for s in hex_result.shapes}
-    # A closed annulus has an exterior plus a hole; a split one is simply connected.
-    assert len(ids["outer_ring"].rings) == 2
-    assert len(ids["inner_ring"].rings) == 1
+    assert len(ids["outer_ring"].rings) == 2   # exterior plus hole
+    assert len(ids["inner_arc"].rings) == 1    # open arc encloses nothing
+
+
+def test_inner_arc_is_cut_at_the_hexagon_centre_line(hex_result):
+    """Its top must sit at the centre of the ring assembly, where Fig. 2 ends it."""
+    ids = {s.id: s for s in hex_result.shapes}
+    _, oy0, _, oy1 = polygon_bounds(ids["outer_ring"].rings[0])
+    _, _, _, arc_top = polygon_bounds(ids["inner_arc"].rings[0])
+    assert arc_top == pytest.approx((oy0 + oy1) / 2, abs=1e-6)
+
+
+def test_f1_is_a_stub_width_not_a_gap(hex_result):
+    """The paper calls F1 the "thickness of stub feed"; it must appear as metal."""
+    stub = [s for s in hex_result.shapes if s.id == "stub"][0]
+    x0, _, x1, _ = polygon_bounds(stub.rings[0])
+    assert x1 - x0 == pytest.approx(HEX_TABLE["F1"], abs=1e-6)
+    assert (x0 + x1) / 2 == pytest.approx(HEX_TABLE["W"] / 2, abs=1e-6)
 
 
 def test_ring_trace_width_matches_the_table(hex_result):
@@ -71,9 +92,30 @@ def test_feed_is_centred_and_correctly_sized(hex_result):
     assert y1 - y0 == pytest.approx(HEX_TABLE["FL"])
 
 
-def test_undeterminable_ground_is_reported_not_drawn(hex_result):
-    assert any("tapered_ground" in u for u in hex_result.underdetermined)
-    assert not any(s.layer is Layer.GROUND for s in hex_result.shapes)
+def test_tapered_ground_is_built_with_base_w1_and_height_gl(hex_result):
+    """Fig. 2 fixes the taper: apex at the substrate corner, inner edge GL tall."""
+    grounds = [s for s in hex_result.shapes if s.layer is Layer.GROUND]
+    assert len(grounds) == 2
+    for g in grounds:
+        x0, y0, x1, y1 = polygon_bounds(g.rings[0])
+        assert x1 - x0 == pytest.approx(HEX_TABLE["W1"], abs=1e-6)
+        assert y1 - y0 == pytest.approx(HEX_TABLE["GL"], abs=1e-6)
+        assert y0 == pytest.approx(0.0, abs=1e-9)
+
+
+def test_ground_clears_the_feed_by_g1(hex_result):
+    ids = {s.id: s for s in hex_result.shapes}
+    fx0, _, fx1, _ = polygon_bounds(ids["feed"].rings[0])
+    _, _, lx1, _ = polygon_bounds(ids["ground_left"].rings[0])
+    gx0, _, _, _ = polygon_bounds(ids["ground_right"].rings[0])
+    assert fx0 - lx1 == pytest.approx(HEX_TABLE["G1"], abs=1e-6)
+    assert gx0 - fx1 == pytest.approx(HEX_TABLE["G1"], abs=1e-6)
+
+
+def test_nothing_is_left_undetermined_for_this_paper(hex_result):
+    """Every part of Fig. 2 is fixed by Table 1 once the figure is read correctly."""
+    assert hex_result.underdetermined == []
+    assert hex_result.diagnostics == []
 
 
 def test_assumptions_are_recorded(hex_result):

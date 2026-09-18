@@ -183,6 +183,34 @@ def difference(outer: Sequence[Point], holes: Sequence[Sequence[Point]]) -> List
     return rings
 
 
+def triangle(p1: Point, p2: Point, p3: Point) -> Ring:
+    """A triangle, rejecting degenerate (collinear) vertices."""
+    area2 = abs((p2[0] - p1[0]) * (p3[1] - p1[1])
+                - (p3[0] - p1[0]) * (p2[1] - p1[1]))
+    if area2 <= 1e-12:
+        raise GeometryError(f"degenerate triangle: {p1}, {p2}, {p3}")
+    return [p1, p2, p3]
+
+
+def union(rings: Sequence[Sequence[Point]]) -> List[Ring]:
+    """Union of overlapping or touching polygons, as exterior/interior rings."""
+    from shapely.geometry import Polygon
+    from shapely.ops import unary_union
+
+    if not rings:
+        raise GeometryError("cannot union an empty set of rings")
+    shape = unary_union([Polygon(r) for r in rings])
+    if shape.is_empty:
+        raise GeometryError("union produced an empty result")
+
+    out: List[Ring] = []
+    for g in getattr(shape, "geoms", [shape]):
+        out.append([(x, y) for x, y in g.exterior.coords[:-1]])
+        for interior in g.interiors:
+            out.append([(x, y) for x, y in interior.coords[:-1]])
+    return out
+
+
 def trapezoid(
     x_left: float, x_right: float, y_bottom: float, y_top: float,
     top_x_left: Optional[float] = None, top_x_right: Optional[float] = None,

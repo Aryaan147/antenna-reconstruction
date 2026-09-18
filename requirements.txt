@@ -8,5 +8,6 @@ sympy>=1.12
 # Development
 pytest>=7.0.0
 
-# Optional, for examples/render_reconstruction.py
+# Optional, for the examples/render_*.py scripts
 matplotlib>=3.7.0
+pypdfium2>=4.0.0

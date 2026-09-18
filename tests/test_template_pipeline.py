@@ -27,9 +27,9 @@ def test_end_to_end_from_parameters(pipeline, tmp_path):
 
     doc = ezdxf.readfile(str(out))
     entities = list(doc.modelspace())
-    assert len(entities) >= 4
+    assert len(entities) >= 7
     layers = {e.dxf.layer for e in entities}
-    assert {"SUBSTRATE", "RADIATOR", "FEED"} <= layers
+    assert {"SUBSTRATE", "RADIATOR", "FEED", "GROUND"} <= layers
     assert doc.header["$INSUNITS"] == 4  # mm
 
 
@@ -78,4 +78,5 @@ def test_end_to_end_from_the_real_pdf(pipeline, tmp_path):
     assert len(result.parameters) == 14
     assert result.parameters["S1"] == 6.5
     assert result.parameters["W1"] == 9.1
-    assert any("tapered_ground" in u for u in result.underdetermined)
+    # Reading Fig. 2 correctly leaves nothing undetermined for this paper.
+    assert result.underdetermined == []

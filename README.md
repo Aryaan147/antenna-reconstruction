@@ -81,9 +81,26 @@ rather than guessed; `synthetic_antenna` states only a substrate thickness.
 Per-paper outcomes are pinned in `tests/test_papers_end_to_end.py` so a
 regression in coverage fails the suite.
 
-Even for the paper that succeeds, the **tapered ground plane is not emitted**:
-`GL`, `G1` and `W1` fix its height and inner edge, but nothing in Table 1 gives
-the taper's slope or apex. That gap is reported.
+For `hexagonal_ring_antenna` every part of Fig. 2 is now reconstructed and
+nothing is left undetermined. Reaching that took reading the figure against the
+table and correcting three mistakes, which is worth recording:
+
+- **`F1` is metal, not a gap.** It was modelled as a split that cut the inner
+  ring open. The paper calls it the "thickness of stub feed": it is the width
+  of the narrow bar joining the inner arc down to the feed.
+- **The inner structure is not a closed ring.** Fig. 2 shows only the lower
+  three hexagon edges, terminating at the left and right vertices.
+- **The tapered ground is determined after all.** Each side is a right triangle
+  with its apex at the substrate's bottom outer corner, a vertical inner edge
+  of height `GL` standing `G1` clear of the feed, and a base of exactly `W1`.
+  It had been reported as needing two more values.
+
+The measurements that settle these are checked against Table 1 in
+`tests/test_templates.py`. Compare for yourself:
+
+```bash
+python examples/render_comparison.py
+```
 
 ## Shape vocabulary
 
@@ -151,6 +168,6 @@ hexagons being flat-top, the ring sitting on the feed — is recorded in
 python -m pytest tests -q
 ```
 
-97 tests. `tests/test_no_silent_success.py` pins the regression that motivated
+101 tests. `tests/test_no_silent_success.py` pins the regression that motivated
 this design: the pipeline used to return success with an empty DXF.
 `tests/test_papers_end_to_end.py` pins what each sample paper should produce.
