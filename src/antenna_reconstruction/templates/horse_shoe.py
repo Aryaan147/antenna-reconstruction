@@ -49,10 +49,52 @@ def load_figure_outline() -> Optional[dict]:
 
 def _place(outline: dict, x0: float, y0: float, width: float,
            height: float) -> List[List]:
-    """Map a normalised outline onto a rectangle in millimetres."""
+    """Map a normalised outline onto a rectangle in millimetres.
+
+    An outline may have several disjoint parts: the ground plane is split in
+    two by the feed passing between them.
+    """
     def ring(points):
         return [(x0 + px * width, y0 + py * height) for px, py in points]
-    return [ring(outline["exterior"])] + [ring(h) for h in outline["holes"]]
+
+    rings: List[List] = []
+    for part in outline["parts"]:
+        rings.append(ring(part["exterior"]))
+        rings.extend(ring(h) for h in part["holes"])
+    return rings
+
+
+# How far the figure may disagree with the table before it is worth reporting.
+# The figure is a drawing, not a measurement, so some slack is expected.
+FIGURE_TOLERANCE = 0.12
+
+
+def _check_figure_against_table(outline: dict, result, expected: dict) -> None:
+    """Report where the figure's own proportions contradict the stated ones.
+
+    The traced outline is rescaled onto the table's dimensions, so a
+    disagreement is silently absorbed by the stretch. Surfacing it is the only
+    way a reader learns that the two sources of truth do not agree.
+    """
+    for name, (want_w, want_h) in expected.items():
+        fraction = outline.get(name, {}).get("substrate_fraction")
+        if not fraction:
+            continue
+        for axis, stated, seen in (("width", want_w, fraction["width"]),
+                                   ("height", want_h, fraction["height"])):
+            if stated <= 0:
+                continue
+            error = abs(seen - stated) / stated
+            line = (f"{name} {axis}: the table implies {stated:.3f} of the "
+                    f"board, Fig. 1 draws {seen:.3f} ({error:.0%} apart)")
+            if error > FIGURE_TOLERANCE:
+                result.diagnostics.append(
+                    "figure contradicts the table - " + line +
+                    "; the stated dimension was used and the traced outline "
+                    "stretched to fit it"
+                )
+            else:
+                result.assumptions.append("figure agrees with the table - " + line)
 
 
 class HorseShoePatchTemplate(Template):
@@ -137,6 +179,10 @@ class HorseShoePatchTemplate(Template):
         outline = load_figure_outline() if self.use_figure_outline else None
 
         if outline is not None:
+            _check_figure_against_table(outline, result, {
+                "patch": (W_P / W, (L_f + L_P) / L_S),
+                "ground": (1.0, L_g / L_S),
+            })
             # The traced gold covers patch and feed as one piece, from the
             # board edge up to the patch top.
             result.shapes.append(Shape(

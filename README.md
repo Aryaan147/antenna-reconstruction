@@ -179,6 +179,25 @@ slot width is an approximation and is traceable to pixels, not to a stated
 dimension. Setting `use_figure_outline=False` returns the determined skeleton
 with the slots reported instead.
 
+**The figure is checked against the table.** The traced outline is rescaled onto
+the stated dimensions, so any disagreement between the two sources would be
+silently absorbed by that stretch. Each shape's size as drawn is therefore
+recorded as a fraction of the board and compared with what the table implies,
+and the result is reported either way. On the horse-shoe paper all four
+proportions agree to within 10%:
+
+| | table implies | figure draws |
+|---|---|---|
+| patch width | 0.857 | 0.788 |
+| patch height | 0.882 | 0.963 |
+| ground width | 1.000 | 0.997 |
+| ground height | 0.382 | 0.345 |
+
+Measured against the figure, the traced shape scores **IoU 0.980** once both are
+normalised to their own bounding boxes. Placed on the stated dimensions it
+scores 0.535 - and that gap *is* the 8-10% table/figure disagreement above,
+which the table wins by design.
+
 ## Layout
 
 ```text
@@ -231,6 +250,6 @@ hexagons being flat-top, the ring sitting on the feed — is recorded in
 python -m pytest tests -q
 ```
 
-152 tests. `tests/test_no_silent_success.py` pins the regression that motivated
+155 tests. `tests/test_no_silent_success.py` pins the regression that motivated
 this design: the pipeline used to return success with an empty DXF.
 `tests/test_papers_end_to_end.py` pins what each sample paper should produce.

@@ -95,9 +95,44 @@ def test_traced_mode_still_honours_the_stated_outer_dimensions(traced):
     assert (x0 + x1) / 2 == pytest.approx(TABLE["W"] / 2, abs=1e-6)
 
     ground = [s for s in traced.shapes if s.id == "ground"][0]
-    gx0, gy0, gx1, gy1 = polygon_bounds(ground.rings[0])
+    # The ground is two pieces, split by the feed passing between them, so its
+    # extent must be measured across ALL its rings.
+    pts = [p for ring in ground.rings for p in ring]
+    gx0, gy0, gx1, gy1 = polygon_bounds(pts)
     assert gx1 - gx0 == pytest.approx(TABLE["W"], abs=1e-6)
     assert gy1 - gy0 == pytest.approx(TABLE["L_g"], abs=1e-6)
+
+
+def test_traced_ground_is_two_pieces_split_by_the_feed(traced):
+    """Keeping only the largest component threw away half the ground plane."""
+    ground = [s for s in traced.shapes if s.id == "ground"][0]
+    assert len(ground.rings) == 2
+    left, right = sorted(ground.rings, key=lambda r: min(p[0] for p in r))
+    assert max(p[0] for p in left) < min(p[0] for p in right)   # a real gap
+    for ring in (left, right):
+        width = max(p[0] for p in ring) - min(p[0] for p in ring)
+        assert width > TABLE["W"] * 0.3      # neither half is a sliver
+
+
+def test_the_figure_is_checked_against_the_table(traced):
+    """A disagreement is absorbed by the rescale, so it must be reported."""
+    lines = [a for a in traced.assumptions if a.startswith("figure agrees")]
+    lines += [d for d in traced.diagnostics if d.startswith("figure contradicts")]
+    assert len(lines) == 4        # patch and ground, width and height
+    assert any("patch width" in ln for ln in lines)
+    assert any("ground height" in ln for ln in lines)
+
+
+def test_a_figure_that_contradicts_the_table_is_flagged():
+    from antenna_reconstruction.templates.horse_shoe import (
+        _check_figure_against_table,
+    )
+    from antenna_reconstruction.templates.base import TemplateResult
+    result = TemplateResult(template="t")
+    outline = {"patch": {"substrate_fraction": {"width": 0.40, "height": 0.90}}}
+    _check_figure_against_table(outline, result, {"patch": (0.857, 0.882)})
+    assert any("figure contradicts" in d for d in result.diagnostics)
+    assert any("figure agrees" in a for a in result.assumptions)
 
 
 def test_traced_mode_declares_that_the_slots_are_figure_derived(traced):
