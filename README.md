@@ -61,6 +61,44 @@ A build that no relation could test is reported as `verified=False`:
 pip install -e ".[dev,viz]"
 ```
 
+A paper in, a DXF out:
+
+```bash
+antenna-reconstruct paper.pdf -o antenna.dxf
+```
+
+```bash
+antenna-reconstruct paper.pdf -o antenna.dxf --preview antenna.png
+```
+
+```bash
+antenna-reconstruct --list-templates
+```
+
+`-p params.json` builds from a symbol table instead of a PDF, `-t` forces a
+template, `--no-hatch` writes outlines only, `-q` prints just the output path.
+The command exits non-zero and writes nothing when a paper cannot be
+reconstructed.
+
+## The DXF
+
+Geometry is written in millimetres (`$INSUNITS = 4`), one layer per conductor
+(`SUBSTRATE`, `RADIATOR`, `GROUND`, `FEED`).
+
+Every shape is written **twice, deliberately**: an LWPOLYLINE per ring, which is
+what a CAD user edits and measures, and a HATCH whose boundary paths carry the
+exterior *and its holes*. The hatch is what makes a slot a void. Written only as
+separate closed polylines, a slot is indistinguishable from another piece of
+metal, and the horse-shoe patch would reach an EM solver as five metal pieces
+instead of one piece with four slots. A shape in several disjoint pieces - the
+ground plane the feed splits in two - gets one hatch per piece, so its halves
+are not mistaken for a region with a hole.
+
+The file carries its own provenance: each entity has XDATA with its shape id and
+derivation, and the header records the source paper, the template, whether the
+binding was verified, and every assumption and undetermined item. A DXF from
+this tool can be audited without the tool.
+
 ```bash
 python extract.py
 ```
@@ -250,6 +288,6 @@ hexagons being flat-top, the ring sitting on the feed — is recorded in
 python -m pytest tests -q
 ```
 
-155 tests. `tests/test_no_silent_success.py` pins the regression that motivated
+177 tests. `tests/test_no_silent_success.py` pins the regression that motivated
 this design: the pipeline used to return success with an empty DXF.
 `tests/test_papers_end_to_end.py` pins what each sample paper should produce.

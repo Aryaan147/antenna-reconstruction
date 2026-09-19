@@ -78,7 +78,8 @@ class GeometryBuilder:
         for shape in template_result.shapes:
             cad_model.polygons.append(PolygonShape(
                 id=shape.id, layer=shape.layer.value, rings=shape.rings,
-                z=shape.z, thickness=shape.thickness, derivation=shape.derivation,
+                ring_roles=shape.ring_roles, z=shape.z,
+                thickness=shape.thickness, derivation=shape.derivation,
             ))
 
         if cad_model.is_empty():

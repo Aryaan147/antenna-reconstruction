@@ -35,6 +35,8 @@ class PolygonShape(BaseModel):
     id: str
     layer: str = "0"
     rings: List[List[Tuple[float, float]]] = Field(default_factory=list)
+    # "exterior" / "hole" per ring; empty means first exterior, rest holes.
+    ring_roles: List[str] = Field(default_factory=list)
     z: float = 0.0
     thickness: float = 0.0
     derivation: str = ""

@@ -48,7 +48,7 @@ def load_figure_outline() -> Optional[dict]:
 
 
 def _place(outline: dict, x0: float, y0: float, width: float,
-           height: float) -> List[List]:
+           height: float):
     """Map a normalised outline onto a rectangle in millimetres.
 
     An outline may have several disjoint parts: the ground plane is split in
@@ -58,10 +58,14 @@ def _place(outline: dict, x0: float, y0: float, width: float,
         return [(x0 + px * width, y0 + py * height) for px, py in points]
 
     rings: List[List] = []
+    roles: List[str] = []
     for part in outline["parts"]:
         rings.append(ring(part["exterior"]))
-        rings.extend(ring(h) for h in part["holes"])
-    return rings
+        roles.append("exterior")
+        for hole in part["holes"]:
+            rings.append(ring(hole))
+            roles.append("hole")
+    return rings, roles
 
 
 # How far the figure may disagree with the table before it is worth reporting.
@@ -188,7 +192,9 @@ class HorseShoePatchTemplate(Template):
             result.shapes.append(Shape(
                 id="patch", layer=Layer.RADIATOR,
                 rings=_place(outline["patch"], cx - W_P / 2.0, 0.0,
-                             W_P, L_f + L_P),
+                             W_P, L_f + L_P)[0],
+                ring_roles=_place(outline["patch"], cx - W_P / 2.0, 0.0,
+                                  W_P, L_f + L_P)[1],
                 derivation=(
                     "patch and feed outline TRACED FROM Fig. 1, rescaled to "
                     f"W_P={W_P} x (L_f+L_P)={L_f + L_P}; slots and "
@@ -197,7 +203,8 @@ class HorseShoePatchTemplate(Template):
             ))
             result.shapes.append(Shape(
                 id="ground", layer=Layer.GROUND,
-                rings=_place(outline["ground"], 0.0, 0.0, W, L_g),
+                rings=_place(outline["ground"], 0.0, 0.0, W, L_g)[0],
+                ring_roles=_place(outline["ground"], 0.0, 0.0, W, L_g)[1],
                 derivation=(
                     "ground outline TRACED FROM Fig. 1, rescaled to "
                     f"W={W} x L_g={L_g}; cut-outs are figure-derived"

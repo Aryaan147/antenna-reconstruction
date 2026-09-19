@@ -129,7 +129,18 @@ class TemplatePipeline:
             result.diagnostics.append(f"CAD build failed: {build_result.status.value}")
             return result
 
-        if not self.exporter.export(build_result.model, output_path):
+        metadata = {
+            "source": source_id,
+            "template": template.name,
+            "verified": bool(
+                built.verification is not None and built.verification.ok
+            ),
+            "assumptions": result.assumptions,
+            "underdetermined": result.underdetermined,
+            "derivations": result.derivations,
+        }
+        if not self.exporter.export(build_result.model, output_path,
+                                    metadata=metadata):
             result.diagnostics.append("DXF export failed.")
             return result
 

@@ -16,6 +16,9 @@ dependencies = [
     "pdfplumber>=0.11.0",
 ]
 
+[project.scripts]
+antenna-reconstruct = "antenna_reconstruction.cli:main"
+
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",
