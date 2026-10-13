@@ -10,15 +10,22 @@ undetermined rather than guessed**.
 **`template_pipeline.TemplatePipeline`** — the path that works on real papers.
 
 ```text
-PDF --> tables + prose + derived --> template match --> BINDING VERIFICATION --> geometry --> DXF
-                                                                |
-                                                          refuted? stop.
+PDF --> tables + prose + derived --> Visual Completion (VLM + Math) --> template match --> BINDING VERIFICATION --> geometry --> DXF
+                                                                                                |
+                                                                                          refuted? stop.
 ```
 
 Dimensions are read from parameter tables where they exist and from running
 text where they do not, and a third source computes what a paper implies but
-never prints. Authority runs tables > prose > derived: a printed value always
+never prints. Authority runs tables > prose > derived > visual evidence: a printed value always
 beats one this code worked out.
+
+**Visual Completion & VLM Verification.** When features (such as inset feeds or gaps)
+are visible in a paper's figure but absent from text or tables, `visual_completion`
+uses a Visual Language Model (Groq `qwen/qwen3.8-27b`) to identify topology and
+explicit labels without guessing coordinates. A deterministic mathematical constructor
+(`constructor.py` and `rules.py`) then resolves geometric parameters (`FI`, `FG`, etc.)
+using stated physical references and proportional constraints before passing them to the templates.
 
 **Derived quantities.** The array paper states only "Distance between patches is
 kept as lambda/2" - but it also states a 2.4 GHz centre frequency, and a
@@ -58,8 +65,12 @@ A build that no relation could test is reported as `verified=False`:
 ## Quick start
 
 ```bash
+# Clone and install dependencies
+cp .env.example .env # Add your GROQ_API_KEY for VLM features
 pip install -e ".[dev,viz]"
 ```
+
+### Command Line Interface
 
 A paper in, a DXF out:
 
@@ -74,6 +85,26 @@ antenna-reconstruct paper.pdf -o antenna.dxf --preview antenna.png
 ```bash
 antenna-reconstruct --list-templates
 ```
+
+`-p params.json` builds from a symbol table instead of a PDF, `-t` forces a
+template, `--no-hatch` writes outlines only, `-q` prints just the output path.
+The command exits non-zero and writes nothing when a paper cannot be
+reconstructed.
+
+### End-to-End Pipeline Runner (`main.py`)
+
+Run the full extraction, visual completion, CAD generation, and side-by-side comparison pipeline:
+
+```bash
+# Runs on default paper or specify custom PDF
+python main.py data/raw/papers/hexagonal_ring_antenna.pdf
+```
+
+Outputs are generated in `results/`:
+- `results/output_antenna.dxf`: CAD geometry in millimeters
+- `results/output_preview.png`: 2D planar rendering of conductors and substrate
+- `results/output_comparison_v2.png`: Side-by-side view comparing the paper's figure against reconstructed DXF
+- `results/step1_extracted_parameters.json` through `step4_diagnostics.txt`: Intermediate stage checkpoints
 
 `-p params.json` builds from a symbol table instead of a PDF, `-t` forces a
 template, `--no-hatch` writes outlines only, `-q` prints just the output path.
@@ -244,7 +275,13 @@ src/antenna_reconstruction/
     ingestion/pdf.py         structure-preserving PDF + table extraction
     ingestion/word_tables.py parameter tables rebuilt from word coordinates
     ingestion/prose.py       dimensions stated in running text
-  coordinate_engine/       Component 2 - SymPy constraint solving (no LLM)
+  visual_completion/       Component 2 - Visual completion & VLM verification
+    geometry/constructor.py  deterministic mathematical constructor
+    geometry/rules.py        proportional and geometric derivation rules
+    vlm/client.py            Groq VLM client for feature & topological gap detection
+    vlm/parser.py            Pydantic parsing of structured VLM findings
+    vlm/prompts.py           deterministic system prompts for visual gap detection
+  coordinate_engine/       SymPy constraint solving (no LLM)
   cad_builder/             Component 3 - geometry -> DXF, layer-aware
   geometry/primitives.py   polygons, uniform insets, boolean difference
   geometry/feeds.py        microstrip lines and inset feeds
@@ -288,6 +325,8 @@ hexagons being flat-top, the ring sitting on the feed — is recorded in
 python -m pytest tests -q
 ```
 
-177 tests. `tests/test_no_silent_success.py` pins the regression that motivated
+186 tests. `tests/test_no_silent_success.py` pins the regression that motivated
 this design: the pipeline used to return success with an empty DXF.
 `tests/test_papers_end_to_end.py` pins what each sample paper should produce.
+`tests/test_cli.py` tests the command line interface end-to-end.
+`tests/test_visual_completion.py` verifies the VLM response schema and geometry constructor.

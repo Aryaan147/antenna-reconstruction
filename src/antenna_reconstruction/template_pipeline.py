@@ -14,6 +14,7 @@ from .cad_builder.exporters.dxf import DXFExporter
 from .cad_builder.models import BuildStatus
 from .geometry_extraction.ingestion.pdf import extract_pdf
 from .templates import TemplateResult, get_template, rank_templates
+from .visual_completion import pipeline as visual_completion
 
 
 class ReconstructionResult(BaseModel):
@@ -68,11 +69,13 @@ class TemplatePipeline:
         self.exporter = DXFExporter()
 
     def run_from_pdf(self, pdf_path: str, output_path: str,
-                     template_name: Optional[str] = None) -> ReconstructionResult:
+                     template_name: Optional[str] = None,
+                     figure_path: Optional[str] = None) -> ReconstructionResult:
         doc = extract_pdf(pdf_path)
         result = self.run_from_parameters(
             doc.merged_parameters(), output_path,
             source_id=doc.source_id, template_name=template_name,
+            figure_path=figure_path,
         )
         # Ambiguities found while reading the paper matter even when the build
         # succeeds, so they are carried through rather than discarded.
@@ -83,11 +86,30 @@ class TemplatePipeline:
 
     def run_from_parameters(self, values: Dict[str, float], output_path: str,
                             source_id: str = "parameters",
-                            template_name: Optional[str] = None
+                            template_name: Optional[str] = None,
+                            figure_path: Optional[str] = None
                             ) -> ReconstructionResult:
+        
+        visual_diagnostics = []
+        visual_derivations = []
+        visual_unresolved = []
+
+        if figure_path is not None:
+            completion = visual_completion.complete(figure_path=figure_path, parameters=values)
+            values = completion.enriched_parameters
+            visual_diagnostics.append(f"Visual completion VLM status: {completion.vlm_status}")
+            visual_diagnostics.append(f"Visual completion Constructor status: {completion.constructor_status}")
+            for d in completion.derivations:
+                visual_derivations.append(f"{d.parameter} = {d.value} (from {d.source} via {d.method})")
+            visual_unresolved.extend(completion.unresolved)
+
         result = ReconstructionResult(
             source_id=source_id, success=False, parameters=dict(values)
         )
+        
+        result.diagnostics.extend(visual_diagnostics)
+        result.derivations.extend(visual_derivations)
+        result.underdetermined.extend(visual_unresolved)
 
         if not values:
             result.diagnostics.append(

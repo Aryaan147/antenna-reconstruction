@@ -14,11 +14,12 @@ dependencies = [
     "ezdxf>=1.1.0",
     "shapely>=2.0.0",
     "pdfplumber>=0.11.0",
+    "groq>=0.9.0",
+    "python-dotenv>=1.0.0",
 ]
 
 [project.scripts]
 antenna-reconstruct = "antenna_reconstruction.cli:main"
-
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",

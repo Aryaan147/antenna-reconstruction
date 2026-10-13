@@ -14,4 +14,8 @@ tests/.pytest_cache/
 *.dxf
 *.log
 examples/output/
+results/
 .DS_Store
+.env
+brain/
+*.egg-info/

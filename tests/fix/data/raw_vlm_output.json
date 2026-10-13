@@ -1,0 +1,29 @@
+{
+  "status": "MISSING",
+  "missing_items": [
+    {
+      "type": "PARAMETER",
+      "feature": "feed_notch_depth",
+      "description": "The vertical depth of the notch cut into the patch from the bottom edge.",
+      "related_parameters": [
+        "L"
+      ],
+      "visible_dimensions": [
+        9.25
+      ],
+      "confidence": 0.95
+    },
+    {
+      "type": "PARAMETER",
+      "feature": "feed_notch_width",
+      "description": "The horizontal width of the gap between the two patch sections at the feed point.",
+      "related_parameters": [
+        "W"
+      ],
+      "visible_dimensions": [
+        23.7
+      ],
+      "confidence": 0.95
+    }
+  ]
+}

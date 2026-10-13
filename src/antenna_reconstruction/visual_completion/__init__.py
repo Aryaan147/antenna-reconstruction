@@ -1,0 +1,1 @@
+"""Visual Completion Architecture Extension"""
